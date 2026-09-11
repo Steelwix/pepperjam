@@ -1,59 +1,72 @@
 services:
-    php:
-        build:
-            context: .
-            dockerfile: docker/php/Dockerfile
-        volumes:
-            - ./app:/var/www/html
-        depends_on:
-            database:
-                condition: service_healthy
-        networks:
-            - pepperjam
+  php:
+    build:
+      context:    .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - pepperjam
 
-    nginx:
-        image: nginx:alpine
-        ports:
-            - "8080:80"
-        volumes:
-            - ./app:/var/www/html:ro
-            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-        depends_on:
-            - php
-        networks:
-            - pepperjam
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php
+    networks:
+      - pepperjam
 
-    database:
-        image: mariadb:11
-        environment:
-            MARIADB_DATABASE: pepperjam
-            MARIADB_USER: pepperjam
-            MARIADB_PASSWORD: pepperjam
-            MARIADB_ROOT_PASSWORD: root
-        volumes:
-            - database_data:/var/lib/mysql
-        healthcheck:
-            test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-            interval: 5s
-            timeout: 5s
-            retries: 10
-        networks:
-            - pepperjam
+  database:
+    image: mariadb:11
+    ports:
+      - "3307:3306"
+    environment:
+      MARIADB_DATABASE: pepperjam
+      MARIADB_USER: pepperjam
+      MARIADB_PASSWORD: pepperjam
+      MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - database_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      interval: 5s
+      timeout:  5s
+      retries:  10
+    networks:
+      - pepperjam
 
-    redis:
-        image: redis:alpine
-        networks:
-            - pepperjam
+  redis:
+    image: redis:alpine
+    networks:
+      - pepperjam
 
-    mailpit:
-        image: axllent/mailpit:latest
-        ports:
-            - "8025:8025"
-        networks:
-            - pepperjam
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
+    networks:
+      - pepperjam
+
+  node:
+    build:
+      context:    .
+      dockerfile: docker/node/Dockerfile
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    command:     npm run dev
+    networks:
+      - pepperjam
 
 volumes:
-    database_data:
+  database_data:
 
 networks:
-    pepperjam:
+  pepperjam:
