@@ -1,0 +1,374 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <style>
+        .showreel-hero {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            color: #fff;
+        }
+
+        .showreel-hero video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .showreel-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0, 0, 0, 0.65) 0%,
+                    rgba(0, 0, 0, 0.25) 50%,
+                    rgba(0, 0, 0, 0.45) 100%
+                );
+        }
+
+        .showreel-hero-scroll {
+            position: absolute;
+            z-index: 3;
+            right: 5vw;
+            bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.75;
+        }
+
+        .showreel-hero-scroll-line {
+            display: block;
+            width: 50px;
+            height: 1px;
+            background: currentColor;
+        }
+
+        .audio-control {
+            position: absolute;
+            z-index: 4;
+            left: 5vw;
+            bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #fff;
+        }
+
+        .audio-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .audio-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+            transform: scale(1.05);
+        }
+
+        .audio-toggle svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .audio-volume-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 130px;
+        }
+
+        .audio-volume-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            opacity: 0.8;
+        }
+
+        .audio-volume {
+            width: 100%;
+            height: 3px;
+            appearance: none;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .audio-volume::-webkit-slider-thumb {
+            width: 12px;
+            height: 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .audio-volume::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border: 0;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .audio-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            opacity: 0.75;
+        }
+
+        @media (max-width: 768px) {
+            .showreel-hero {
+                min-height: 85vh;
+            }
+
+            .showreel-hero-scroll {
+                right: 24px;
+                bottom: 24px;
+            }
+
+            .audio-control {
+                left: 24px;
+                bottom: 24px;
+            }
+
+            .audio-volume-wrapper {
+                width: 90px;
+            }
+
+            .audio-label {
+                display: none;
+            }
+        }
+
+        .video-edit-button {
+            position: absolute;
+            z-index: 4;
+            top: 24px;
+            right: 5vw;
+            padding: 8px 12px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: background 0.2s ease;
+        }
+
+        .video-edit-button:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+        }
+    </style>
+
+    <section class="showreel-hero" id="showreel">
+        {% if editing %}
+            <a
+                href="{{ path('app_edit_section', {'sectionType': 'showreel'}) }}"
+                class="video-edit-button"
+                title="Modifier la vidéo"
+            >
+                ✎ Edit
+            </a>
+        {% endif %}
+        <video
+            id="showreel-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+        >
+            <source
+                src="{{ asset('upload/showreel.mp4') }}"
+                type="video/mp4"
+            >
+
+            Votre navigateur ne supporte pas la lecture vidéo.
+        </video>
+
+        <div class="audio-control">
+
+            <button
+                type="button"
+                class="audio-toggle"
+                id="audio-toggle"
+                aria-label="Activer le son"
+                title="Activer le son"
+            >
+                <svg
+                    id="audio-icon-muted"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+
+                <svg
+                    id="audio-icon-playing"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    style="display: none;"
+                >
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                    <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
+                </svg>
+            </button>
+
+            <div class="audio-volume-wrapper">
+                <span class="audio-volume-icon">
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    </svg>
+                </span>
+
+                <input
+                    type="range"
+                    id="audio-volume"
+                    class="audio-volume"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.7"
+                    aria-label="Volume"
+                >
+            </div>
+
+            <span class="audio-label" id="audio-label">
+                Sound off
+            </span>
+        </div>
+
+        <div class="showreel-hero-scroll">
+            <span class="showreel-hero-scroll-line"></span>
+            Scroll to explore
+        </div>
+
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('showreel-video');
+            const toggle = document.getElementById('audio-toggle');
+            const volume = document.getElementById('audio-volume');
+            const label = document.getElementById('audio-label');
+
+            const mutedIcon = document.getElementById('audio-icon-muted');
+            const playingIcon = document.getElementById('audio-icon-playing');
+
+            if (!video || !toggle || !volume) {
+                return;
+            }
+
+            video.volume = Number(volume.value);
+            video.muted = true;
+
+            function updateAudioInterface() {
+                const isMuted = video.muted || video.volume === 0;
+
+                mutedIcon.style.display = isMuted ? 'block' : 'none';
+                playingIcon.style.display = isMuted ? 'none' : 'block';
+
+                toggle.setAttribute(
+                    'aria-label',
+                    isMuted ? 'Activer le son' : 'Couper le son'
+                );
+
+                toggle.setAttribute(
+                    'title',
+                    isMuted ? 'Activer le son' : 'Couper le son'
+                );
+
+                label.textContent = isMuted ? 'Sound off' : 'Sound on';
+            }
+
+            toggle.addEventListener('click', function () {
+                if (video.muted || video.volume === 0) {
+                    video.muted = false;
+
+                    if (video.volume === 0) {
+                        video.volume = 0.7;
+                        volume.value = 0.7;
+                    }
+                } else {
+                    video.muted = true;
+                }
+
+                updateAudioInterface();
+            });
+
+            volume.addEventListener('input', function () {
+                const newVolume = Number(volume.value);
+
+                video.volume = newVolume;
+                video.muted = newVolume === 0;
+
+                updateAudioInterface();
+            });
+
+            updateAudioInterface();
+        });
+    </script>
+
+{% endblock %}

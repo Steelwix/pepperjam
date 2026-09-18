@@ -1,0 +1,25 @@
+
+
+<header class="d-flex justify-content-center mt-3">
+    <nav class="navbar">
+        {% if app.user and editing is defined and editing == false %}
+            <a
+                class="nav-link fw-bold"
+                href="{{ path('app_home', { editing: true }) }}"
+            >
+                EDIT
+            </a>
+        {% endif %}
+
+            {% if editing is defined and  editing == true %}
+                <a
+                    class="nav-link fw-bold"
+                    href="{{ path('app_home', { editing: false }) }}"
+                >
+                    LEAVE EDIT
+                </a>
+                {% endif %}
+    </nav>
+</header>
+
+

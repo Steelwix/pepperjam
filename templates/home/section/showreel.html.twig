@@ -1,0 +1,138 @@
+<turbo-stream action="replace" target="showreel">
+    <template>
+        <section id="showreel" class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-9">
+
+                    <div class="card bg-dark border-secondary shadow-lg overflow-hidden">
+                        <div class="card-body p-4 p-md-5">
+
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div
+                                    class="d-flex align-items-center justify-content-center rounded-3 bg-primary bg-opacity-25 text-primary"
+                                    style="width: 48px; height: 48px;"
+                                >
+                                    <i class="bi bi-film fs-4"></i>
+                                </div>
+
+                                <div>
+                                    <h3 class="mb-1">Modify the showreel</h3>
+                                    <p class="text-secondary mb-0">
+                                        Update the media displayed in your showreel section.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row g-4 align-items-start">
+
+                                {# Formulaire #}
+                                <div class="col-12 col-lg-5">
+                                    <div class="p-4 rounded-4 bg-black bg-opacity-25 border border-secondary border-opacity-50">
+                                        {{ form_start(form, {
+                                            action: path('app_edit_section', {
+                                                sectionType: 'showreel'
+                                            }),
+                                            attr: {
+                                                'data-turbo': 'true'
+                                            }
+                                        }) }}
+
+                                        <div class="mb-3">
+                                            {{ form_label(form.media, 'Showreel media', {
+                                                label_attr: {
+                                                    class: 'form-label fw-semibold'
+                                                }
+                                            }) }}
+
+                                            {{ form_widget(form.media, {
+                                                attr: {
+                                                    class: 'form-control'
+                                                }
+                                            }) }}
+
+                                            {% if form.media.vars.help is defined %}
+                                                <div class="form-text">
+                                                    {{ form.media.vars.help }}
+                                                </div>
+                                            {% endif %}
+
+                                            {{ form_errors(form.media) }}
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary px-4">
+                                                <i class="bi bi-cloud-arrow-up me-2"></i>
+                                                Save media
+                                            </button>
+                                        </div>
+
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+
+                                {# Aperçu du média actuel #}
+                                <div class="col-12 col-lg-7">
+                                    <div class="mb-3">
+                                        <h5 class="mb-1">Current media</h5>
+                                        <p class="text-secondary small mb-0">
+                                            This is the media currently displayed on your website.
+                                        </p>
+                                    </div>
+
+                                    {% if media is defined and media.filename is not null %}
+                                        {% set ext = media.filename|split('.')|last|lower %}
+
+                                        <div class="rounded-4 overflow-hidden border border-secondary border-opacity-50 bg-black">
+                                            {% if ext in ['mp4', 'webm', 'ogg', 'mov'] %}
+                                                <video
+                                                    class="w-100 d-block"
+                                                    controls
+                                                    playsinline
+                                                    preload="metadata"
+                                                >
+                                                    <source
+                                                        src="{{ asset(media.path ~ media.filename) }}"
+                                                        type="video/{{ ext }}"
+                                                    >
+                                                    Votre navigateur ne supporte pas la vidéo.
+                                                </video>
+
+                                            {% elseif ext in ['jpg', 'jpeg', 'png', 'gif', 'webp'] %}
+                                                <img
+                                                    src="{{ asset('upload/' ~ showreel ~ '/' ~ media.filename) }}"
+                                                    alt="Current showreel media"
+                                                    class="img-fluid w-100 d-block"
+                                                >
+
+                                            {% else %}
+                                                <div class="p-4 text-warning">
+                                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                                    Unsupported media format: {{ ext }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="mt-2 text-secondary small text-truncate">
+                                            <i class="bi bi-file-earmark me-1"></i>
+                                            {{ media.filename }}
+                                        </div>
+                                    {% else %}
+                                        <div class="d-flex flex-column align-items-center justify-content-center text-center rounded-4 border border-secondary border-opacity-50 bg-black bg-opacity-25 p-5">
+                                            <i class="bi bi-image text-secondary fs-1 mb-3"></i>
+                                            <h6 class="mb-2">No media yet</h6>
+                                            <p class="text-secondary small mb-0">
+                                                Upload a file to display your showreel here.
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </template>
+</turbo-stream>
