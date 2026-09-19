@@ -6,7 +6,9 @@
     use App\Entity\Section;
     use App\Form\MediaType;
     use App\Form\Section\SectionShowreelType;
+    use App\Service\MediaService;
     use Doctrine\ORM\EntityManagerInterface;
+    use Random\RandomException;
     use Symfony\Bundle\SecurityBundle\Security;
     use Symfony\Component\Form\FormFactoryInterface;
     use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +30,7 @@
             private readonly EntityManagerInterface $em,
             private readonly Security $security,
             private readonly FormFactoryInterface $formFactory,
+            private readonly MediaService $mediaService,
 
         ) {
         }
@@ -36,35 +39,40 @@
          * @throws SyntaxError
          * @throws RuntimeError
          * @throws LoaderError
+         * @throws RandomException
          */
         public function handle(Request $request): Response
         {
-            // Exemple de données par défaut
-            $section = $this->em->getRepository(Section::class)->findOneBy(['type' => Section::SHOWREEL_TYPE]);
+            $section = $this->em
+                ->getRepository(Section::class)
+                ->findOneBy(['type' => Section::SHOWREEL_TYPE]);
+
             if (!$section) {
-                $section = (new Section())->setCreatedAt(new \DateTimeImmutable())->setEnabled(true)->setType(
-                    Section::SHOWREEL_TYPE
-                )->setUpdatedBy($this->security->getUser());
-            }
+                $section = (new Section())
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setEnabled(true)
+                    ->setType(Section::SHOWREEL_TYPE)
+                    ->setUpdatedBy($this->security->getUser());
 
-            $media = $section->getMedia()->first();
-
-            if (!$media) {
-                $media = new Media();
-                $section->addMedium($media);
+                $this->em->persist($section);
             }
 
             $form = $this->formFactory->create(MediaType::class);
             $form->handleRequest($request);
-            // Traitement de la requête POST
+
             if ($form->isSubmitted() && $form->isValid()) {
-                dd($form->getData());
+                $this->mediaService->create(
+                    $form->get('media')->getData(),
+                    $section, $section->getMedia()->first()
+                );
+
+                $this->em->flush();
             }
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
             return new Response(
                 $this->twig->render('home/section/showreel.html.twig', [
-                    'media' => $media,
+                    'media' => $section->getMedia()->first(),
                     'form' => $form->createView(),
                 ])
             );

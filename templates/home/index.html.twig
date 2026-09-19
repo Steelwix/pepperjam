@@ -210,6 +210,8 @@
     </style>
 
     <section class="showreel-hero" id="showreel">
+        {% set section = getSectionByName('showreel') %}
+        {% set media = section.media.first %}
         {% if editing %}
             <a
                 href="{{ path('app_edit_section', {'sectionType': 'showreel'}) }}"
@@ -228,7 +230,7 @@
             preload="metadata"
         >
             <source
-                src="{{ asset('upload/showreel.mp4') }}"
+                src="{{ asset(media.path ~ media.filename) }}"
                 type="video/mp4"
             >
 
@@ -306,9 +308,15 @@
         </div>
 
     </section>
-
+    <div class="container">
+        <div class="row">
+            <section id="techreel">
+                <p>TECHREEL</p>
+            </section>
+        </div>
+    </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        (() => {
             const video = document.getElementById('showreel-video');
             const toggle = document.getElementById('audio-toggle');
             const volume = document.getElementById('audio-volume');
@@ -368,7 +376,7 @@
             });
 
             updateAudioInterface();
-        });
+        })();
     </script>
 
 {% endblock %}

@@ -99,7 +99,7 @@
 
                                             {% elseif ext in ['jpg', 'jpeg', 'png', 'gif', 'webp'] %}
                                                 <img
-                                                    src="{{ asset('upload/' ~ showreel ~ '/' ~ media.filename) }}"
+                                                    src="{{ asset(media.path ~ media.filename) }}"
                                                     alt="Current showreel media"
                                                     class="img-fluid w-100 d-block"
                                                 >
