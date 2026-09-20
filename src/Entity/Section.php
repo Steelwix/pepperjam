@@ -15,6 +15,8 @@ class Section
 {
 
     const SHOWREEL_TYPE = 'showreel';
+    const TECHREEL_TYPE = 'techreel';
+
 
 
     #[ORM\Id]

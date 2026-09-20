@@ -1,6 +1,6 @@
-<turbo-stream action="replace" target="showreel">
+<turbo-stream action="replace" target={{spot}}>
     <template>
-        <section id="showreel" class="container py-5">
+        <section id={{spot}} class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-12 col-xl-9">
 
@@ -30,7 +30,7 @@
                                     <div class="p-4 rounded-4 bg-black bg-opacity-25 border border-secondary border-opacity-50">
                                         {{ form_start(form, {
                                             action: path('app_edit_section', {
-                                                sectionType: 'showreel'
+                                                sectionType: spot
                                             }),
                                             attr: {
                                                 'data-turbo': 'true'
@@ -38,7 +38,7 @@
                                         }) }}
 
                                         <div class="mb-3">
-                                            {{ form_label(form.media, 'Showreel media', {
+                                            {{ form_label(form.media, spot ~ 'media', {
                                                 label_attr: {
                                                     class: 'form-label fw-semibold'
                                                 }
@@ -79,7 +79,7 @@
                                         </p>
                                     </div>
 
-                                    {% if media is defined and media.filename is not null %}
+                                    {% if media is defined and media.filename is defined and media.filename is not null %}
                                         {% set ext = media.filename|split('.')|last|lower %}
 
                                         <div class="rounded-4 overflow-hidden border border-secondary border-opacity-50 bg-black">

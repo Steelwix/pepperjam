@@ -207,11 +207,77 @@
             color: #fff;
             background: rgba(255, 255, 255, 0.15);
         }
+
+        .techreel {
+            position: relative;
+            width: 100%;
+            background: #000;
+        }
+
+        .techreel video {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+
+
+        .techreel-play {
+            position: relative;
+            z-index: 3;
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            padding: 16px 24px;
+
+            color: #fff;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 999px;
+
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            backdrop-filter: blur(8px);
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .techreel-play:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+            transform: scale(1.03);
+        }
+
+        .techreel-play-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 42px;
+            height: 42px;
+
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+
+            font-size: 14px;
+        }
+
+        .techreel-play-label {
+            white-space: nowrap;
+        }
     </style>
 
     <section class="showreel-hero" id="showreel">
-        {% set section = getSectionByName('showreel') %}
-        {% set media = section.media.first %}
         {% if editing %}
             <a
                 href="{{ path('app_edit_section', {'sectionType': 'showreel'}) }}"
@@ -221,6 +287,10 @@
                 ✎ Edit
             </a>
         {% endif %}
+        {% set section = getSectionByName('showreel') %}
+        {% if section is not null %}
+        {% set media = section.media.first %}
+
         <video
             id="showreel-video"
             autoplay
@@ -306,15 +376,55 @@
             <span class="showreel-hero-scroll-line"></span>
             Scroll to explore
         </div>
-
+        {% endif %}
     </section>
-    <div class="container">
-        <div class="row">
-            <section id="techreel">
-                <p>TECHREEL</p>
-            </section>
-        </div>
-    </div>
+    <section class="techreel" id="techreel">
+        {% if editing %}
+            <a
+                href="{{ path('app_edit_section', {'sectionType': 'techreel'}) }}"
+                class="video-edit-button"
+                title="Modifier la vidéo"
+            >
+                ✎ Edit
+            </a>
+        {% endif %}
+        {% set section = getSectionByName('techreel') %}
+        {% if section is not null %}
+        {% set media = section.media.first %}
+
+
+
+        <video
+            id="techreel-video"
+            playsinline
+            preload="metadata"
+            controls
+        >
+            <source
+                src="{{ asset(media.path ~ media.filename) }}"
+                type="video/mp4"
+            >
+
+            Votre navigateur ne supporte pas la lecture vidéo.
+        </video>
+
+        <button
+            type="button"
+            class="techreel-play"
+            id="techreel-play"
+            aria-label="Lire le Tech Reel"
+        >
+        <span class="techreel-play-icon">
+            ▶
+        </span>
+
+            <span class="techreel-play-label">
+            Watch our tech reel
+        </span>
+        </button>
+        {% endif %}
+    </section>
+
     <script>
         (() => {
             const video = document.getElementById('showreel-video');
@@ -378,5 +488,23 @@
             updateAudioInterface();
         })();
     </script>
+    <script>
+        (() => {
+            const video = document.getElementById('techreel-video');
+            const play = document.getElementById('techreel-play');
 
+            if (!video || !play) {
+                return;
+            }
+
+            play.addEventListener('click', function () {
+                video.play();
+                play.style.display = 'none';
+            });
+
+            video.addEventListener('ended', function () {
+                play.style.display = 'flex';
+            });
+        })();
+    </script>
 {% endblock %}

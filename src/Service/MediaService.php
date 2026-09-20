@@ -42,6 +42,7 @@
             }
             $media
                 ->setFilename($filename)
+                ->setPath('upload/')
                 ->setOriginalName($file->getClientOriginalName())
                 ->setMimeType($file->getMimeType())
                 ->setCreatedAt(new \DateTimeImmutable());

@@ -21,7 +21,7 @@
     use Twig\Error\RuntimeError;
     use Twig\Error\SyntaxError;
 
-    class ShowreelSectionHandler implements SectionHandlerInterface
+    class TechreelSectionHandler implements SectionHandlerInterface
     {
 
 
@@ -45,13 +45,13 @@
         {
             $section = $this->em
                 ->getRepository(Section::class)
-                ->findOneBy(['type' => Section::SHOWREEL_TYPE]);
+                ->findOneBy(['type' => Section::TECHREEL_TYPE]);
 
             if (!$section) {
                 $section = (new Section())
                     ->setCreatedAt(new \DateTimeImmutable())
                     ->setEnabled(true)
-                    ->setType(Section::SHOWREEL_TYPE)
+                    ->setType(Section::TECHREEL_TYPE)
                     ->setUpdatedBy($this->security->getUser());
 
                 $this->em->persist($section);
@@ -59,6 +59,7 @@
 
             $form = $this->formFactory->create(MediaType::class);
             $form->handleRequest($request);
+
 
             if ($form->isSubmitted() && $form->isValid()) {
 
@@ -76,7 +77,7 @@
                 $this->twig->render('home/section/showreel.html.twig', [
                     'media' => $section->getMedia()->first(),
                     'form' => $form->createView(),
-                    'spot' => Section::SHOWREEL_TYPE
+                    'spot' => Section::TECHREEL_TYPE
                 ])
             );
         }
