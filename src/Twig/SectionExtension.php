@@ -2,6 +2,7 @@
 namespace App\Twig;
 
 
+    use App\Entity\Member;
     use App\Entity\Section;
     use Doctrine\ORM\EntityManagerInterface;
     use Twig\Extension\AbstractExtension;
@@ -18,6 +19,7 @@ namespace App\Twig;
         {
             return [
                 new TwigFunction('getSectionByName', [$this, 'getSectionByName']),
+                new TwigFunction('getTeamMembers', [$this, 'getTeamMembers']),
             ];
         }
 
@@ -27,5 +29,10 @@ namespace App\Twig;
                 'type'    => $type,
                 'enabled' => true,
             ]);
+        }
+
+        public function getTeamMembers(): array
+        {
+            return $this->em->getRepository(Member::class)->findBy([]);
         }
     }

@@ -68,7 +68,6 @@
                     $section, $section->getMedia()->first()?: null
                 );
 
-                $this->em->flush();
             }
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 

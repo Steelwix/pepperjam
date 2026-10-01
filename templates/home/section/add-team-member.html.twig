@@ -1,0 +1,100 @@
+<turbo-stream action="replace" target="{{ spot }}">
+    <template>
+        <section id="{{ spot }}" class="container py-5">
+
+            {{ form_start(form, {
+                action: path('app_edit_section', {
+                    sectionType: spot
+                }),
+                attr: {
+                    'data-turbo': 'true'
+                }
+            }) }}
+
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.lastname) }}
+
+            {{ form_label(form.bio, 'Bio', {
+                label_attr: {
+                    class: 'form-label fw-semibold'
+                }
+            }) }}
+
+            {{ form_widget(form.bio, {
+                attr: {
+                    hidden: true
+                }
+            }) }}
+
+            <trix-editor input="{{ form.bio.vars.id }}"></trix-editor>
+
+            {{ form_row(form.media) }}
+
+            <div
+                id="links-list"
+                data-index="{{ form.links|length }}"
+                data-prototype="{{ form_widget(form.links.vars.prototype)|e('html_attr') }}"
+            >
+                {% for link in form.links %}
+                    <div class="link-item mb-3">
+                        {{ form_row(link.link) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% do form.links.setRendered() %}
+
+            <button
+                type="button"
+                id="add-link"
+                class="btn btn-secondary mt-2"
+            >
+                + Add a link
+            </button>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            </div>
+
+            {{ form_end(form) }}
+
+            <script>
+                const linksList = document.getElementById('links-list');
+                const addBtn = document.getElementById('add-link');
+
+                let index = parseInt(
+                    linksList.dataset.index,
+                    10
+                );
+
+                addBtn.addEventListener('click', () => {
+
+                    const prototype = linksList.dataset.prototype;
+
+                    const newForm = prototype.replace(
+                        /__name__/g,
+                        index
+                    );
+
+                    const wrapper = document.createElement('div');
+
+                    wrapper.classList.add(
+                        'link-item',
+                        'mb-3'
+                    );
+
+                    wrapper.innerHTML = newForm;
+
+                    linksList.appendChild(wrapper);
+
+                    index++;
+
+                    linksList.dataset.index = index;
+                });
+            </script>
+
+        </section>
+    </template>
+</turbo-stream>

@@ -33,10 +33,10 @@
                             'mimeTypesMessage' => 'Veuillez uploader une vidéo mp4/quicktime ou une image (jpeg, png, gif).',
                         ]),
                     ],
-                ])
-                ->add('save', SubmitType::class, [
-                    'label' => 'Enregistrer',
                 ]);
+//                ->add('save', SubmitType::class, [
+//                    'label' => 'Enregistrer',
+//                ]);
         }
 
         public function configureOptions(

@@ -4,6 +4,7 @@
 
     use AllowDynamicProperties;
     use App\Entity\Section;
+    use App\Handler\Section\CollectiveSectionHandler;
     use App\Handler\Section\SectionHandlerInterface;
     use App\Handler\Section\ShowreelSectionHandler;
     use App\Handler\Section\TechreelSectionHandler;
@@ -12,19 +13,21 @@
     class SectionService
     {
 
-        public function __construct(
-            private readonly  ShowreelSectionHandler $showreelSectionHandler, private readonly TechreelSectionHandler $techreelSectionHandler
-        ){
+        public function __construct(){
         }
 
-        public function getHandlerByType(string $sectionType): SectionHandlerInterface
+        public function buildData(array $data): array
         {
-            return match ($sectionType) {
-                Section::SHOWREEL_TYPE => $this->showreelSectionHandler,
-                Section::TECHREEL_TYPE => $this->techreelSectionHandler,
-                default => throw new \InvalidArgumentException(
-                    sprintf('Type de section inconnu : "%s"', $sectionType)
-                ),
-            };
+            foreach ($data as $key => $value) {
+                if (is_string($value)) {
+                    $data[$key] = $this->handleTextArea($value);
+                }
+            }
+            return $data;
+        }
+
+        public function handleTextArea(string $text): string
+        {
+            return preg_replace('/<\/?div[^>]*>/i', '', $text);
         }
     }

@@ -16,6 +16,8 @@ class Section
 
     const SHOWREEL_TYPE = 'showreel';
     const TECHREEL_TYPE = 'techreel';
+    const COLLECTIVE_TYPE = 'collective';
+    const TEAM_TYPE = 'team';
 
 
 
@@ -47,6 +49,9 @@ class Section
      */
     #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'section')]
     private Collection $media;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $data = null;
 
     public function __construct()
     {
@@ -156,6 +161,18 @@ class Section
                 $medium->setSection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getData(): ?array
+    {
+        return $this->data;
+    }
+
+    public function setData(?array $data): static
+    {
+        $this->data = $data;
 
         return $this;
     }

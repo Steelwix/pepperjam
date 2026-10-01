@@ -31,6 +31,9 @@ class Media
     #[ORM\ManyToOne(inversedBy: 'media')]
     private ?Section $section = null;
 
+    #[ORM\ManyToOne(inversedBy: 'media')]
+    private ?Member $member = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class Media
     public function setSection(?Section $section): static
     {
         $this->section = $section;
+
+        return $this;
+    }
+
+    public function getMember(): ?Member
+    {
+        return $this->member;
+    }
+
+    public function setMember(?Member $member): static
+    {
+        $this->member = $member;
 
         return $this;
     }

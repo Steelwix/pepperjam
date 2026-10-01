@@ -3,6 +3,11 @@
 {% block body %}
 
     <style>
+
+        .edit-display {
+        {% if editing == false %} display: none;
+        {% endif %}
+        }
         .showreel-hero {
             position: relative;
             width: 100%;
@@ -30,13 +35,12 @@
             inset: 0;
             z-index: 1;
             pointer-events: none;
-            background:
-                linear-gradient(
-                    90deg,
-                    rgba(0, 0, 0, 0.65) 0%,
-                    rgba(0, 0, 0, 0.25) 50%,
-                    rgba(0, 0, 0, 0.45) 100%
-                );
+            background: linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0.65) 0%,
+                rgba(0, 0, 0, 0.25) 50%,
+                rgba(0, 0, 0, 0.45) 100%
+            );
         }
 
         .showreel-hero-scroll {
@@ -85,10 +89,9 @@
             border-radius: 50%;
             cursor: pointer;
             backdrop-filter: blur(8px);
-            transition:
-                background 0.2s ease,
-                border-color 0.2s ease,
-                transform 0.2s ease;
+            transition: background 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.2s ease;
         }
 
         .audio-toggle:hover {
@@ -211,134 +214,231 @@
         .techreel {
             position: relative;
             width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #000;
+            color: #fff;
+        }
+        #techreel {
+            position: relative;
+        }
+
+        .video-edit-button {
+            position: absolute;
+            z-index: 4;
+            top: 24px;
+            right: 5vw;
+        }
+
+        .techreel-video {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
             background: #000;
         }
 
-        .techreel video {
+        .techreel-video video {
             display: block;
             width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .techreel-layout {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+        }
+
+        .techreel-layout > .col-12 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .techreel-video {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+
+        .techreel-video video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /*
+Source - https://stackoverflow.com/a/26680198
+Posted by Christina, modified by community. See post 'Timeline' for change history
+Retrieved 2026-09-20, License - CC BY-SA 3.0
+*/
+
+        .container-fluid.full-width {
+            padding-left: 0;
+            padding-right: 0;
+            overflow-x: hidden;
+        }
+
+        .row.row-no-gutter {
+            margin: 0
+        }
+
+        .row.row-no-gutter [class*="col-"] {
+            padding: 0
+        }
+
+        .img-full-width {
+            width: 100.5%;
             height: auto;
         }
 
+        .has-inner .row.row-no-gutter {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
+        .row.row-no-gutter .inner {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        /*ACTIVITES*/
 
 
-        .techreel-play {
+        #activities {
+            padding: 0;
+        }
+
+        #activities > .row {
+            height: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .activity-button {
+                height: 500px;
+                min-height: 0;
+            }
+        }
+
+        .activity-button {
             position: relative;
-            z-index: 3;
 
-            display: flex;
-            align-items: center;
-            gap: 14px;
-
-            padding: 16px 24px;
-
-            color: #fff;
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 999px;
-
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-
-            cursor: pointer;
-
-            backdrop-filter: blur(8px);
-
-            transition:
-                background 0.2s ease,
-                border-color 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .techreel-play:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #fff;
-            transform: scale(1.03);
-        }
-
-        .techreel-play-icon {
             display: flex;
             align-items: center;
             justify-content: center;
 
-            width: 42px;
-            height: 42px;
+            min-height: 300px;
+            padding: 30px;
 
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
 
-            font-size: 14px;
+            color: #fff !important;
+            text-decoration: none;
+
+            overflow: hidden;
         }
 
-        .techreel-play-label {
-            white-space: nowrap;
+        .activity-button::before {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background: rgba(180, 0, 0, 0);
+
+            transition: background 0.3s ease;
         }
+
+        .activity-button span {
+            position: relative;
+            z-index: 1;
+
+            max-width: 90%;
+
+            color: #fff !important;
+
+            font-size: clamp(14px, 1.4vw, 20px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: 0.08em;
+            text-align: center;
+            text-transform: uppercase;
+
+            overflow-wrap: break-word;
+        }
+
+        .activity-button:hover::before {
+            background: rgba(180, 0, 0, 0.5);
+        }
+
+
     </style>
 
     <section class="showreel-hero" id="showreel">
-        {% if editing %}
             <a
                 href="{{ path('app_edit_section', {'sectionType': 'showreel'}) }}"
-                class="video-edit-button"
+                class="video-edit-button edit-display"
                 title="Modifier la vidéo"
             >
                 ✎ Edit
             </a>
-        {% endif %}
         {% set section = getSectionByName('showreel') %}
         {% if section is not null %}
-        {% set media = section.media.first %}
+            {% set media = section.media.first %}
 
-        <video
-            id="showreel-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-        >
-            <source
-                src="{{ asset(media.path ~ media.filename) }}"
-                type="video/mp4"
+            <video
+                id="showreel-video"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
             >
-
-            Votre navigateur ne supporte pas la lecture vidéo.
-        </video>
-
-        <div class="audio-control">
-
-            <button
-                type="button"
-                class="audio-toggle"
-                id="audio-toggle"
-                aria-label="Activer le son"
-                title="Activer le son"
-            >
-                <svg
-                    id="audio-icon-muted"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
+                <source
+                    src="{{ asset(media.path ~ media.filename) }}"
+                    type="video/mp4"
                 >
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <line x1="23" y1="9" x2="17" y2="15"></line>
-                    <line x1="17" y1="9" x2="23" y2="15"></line>
-                </svg>
 
-                <svg
-                    id="audio-icon-playing"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    style="display: none;"
+                Votre navigateur ne supporte pas la lecture vidéo.
+            </video>
+
+            <div class="audio-control">
+
+                <button
+                    type="button"
+                    class="audio-toggle"
+                    id="audio-toggle"
+                    aria-label="Activer le son"
+                    title="Activer le son"
                 >
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                    <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-                    <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
-                </svg>
-            </button>
+                    <svg
+                        id="audio-icon-muted"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
 
-            <div class="audio-volume-wrapper">
+                    <svg
+                        id="audio-icon-playing"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        style="display: none;"
+                    >
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                        <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
+                    </svg>
+                </button>
+
+                <div class="audio-volume-wrapper">
                 <span class="audio-volume-icon">
                     <svg
                         viewBox="0 0 24 24"
@@ -355,75 +455,157 @@
                     </svg>
                 </span>
 
-                <input
-                    type="range"
-                    id="audio-volume"
-                    class="audio-volume"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value="0.7"
-                    aria-label="Volume"
-                >
-            </div>
+                    <input
+                        type="range"
+                        id="audio-volume"
+                        class="audio-volume"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.7"
+                        aria-label="Volume"
+                    >
+                </div>
 
-            <span class="audio-label" id="audio-label">
+                <span class="audio-label" id="audio-label">
                 Sound off
             </span>
-        </div>
+            </div>
 
-        <div class="showreel-hero-scroll">
-            <span class="showreel-hero-scroll-line"></span>
-            Scroll to explore
-        </div>
+            <div class="showreel-hero-scroll">
+                <span class="showreel-hero-scroll-line"></span>
+                Scroll to explore
+            </div>
         {% endif %}
     </section>
-    <section class="techreel" id="techreel">
-        {% if editing %}
-            <a
-                href="{{ path('app_edit_section', {'sectionType': 'techreel'}) }}"
-                class="video-edit-button"
-                title="Modifier la vidéo"
-            >
-                ✎ Edit
-            </a>
-        {% endif %}
-        {% set section = getSectionByName('techreel') %}
+    <section class="pop-separator">
+        <h1>SPICE UP YOUR GAME AUDIO</h1>
+    </section>
+    <div class="container-fluid full-width">
+        <div class="row row-no-gutter">
+            <section class="col-12 col-lg-6" id="techreel">
+                {% set section = getSectionByName('techreel') %}
+                    <a href="{{ path('app_edit_section', {'sectionType': 'techreel'}) }}"
+                       class="video-edit-button edit-display"
+                       title="Modifier la vidéo">
+                        ✎ Edit
+                    </a>
+                {% if section is not null %}
+                    {% set media = section.media.first %}
+
+                    <div class="techreel-video">
+
+
+
+                        <video
+                            id="techreel-video"
+                            playsinline
+                            preload="metadata"
+                            controls
+                        >
+                            <source
+                                src="{{ asset(media.path ~ media.filename) }}"
+                                type="video/mp4"
+                            >
+                        </video>
+
+                    </div>
+                {% endif %}
+            </section>
+
+            <section class="col-12 col-lg-6 p-0" id="activities">
+
+                <div class="row g-0 h-100">
+
+                    <a
+                        href="#"
+                        class="col-4 activity-button"
+                        style="background-image: url('https://picsum.photos/id/1015/600/1000');"
+                    >
+                        <span>SOUND DESIGN & IMPLEMENTATION</span>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="col-4 activity-button"
+                        style="background-image: url('https://picsum.photos/id/1016/600/1000');"
+                    >
+                        <span>MOVIE & COMMERCIALS</span>
+                    </a>
+
+                    <a
+                        href="#"
+                        class="col-4 activity-button"
+                        style="background-image: url('https://picsum.photos/id/1018/600/1000');"
+                    >
+                        <span>SCORE</span>
+                    </a>
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+    <section class="collective" id="collective">
+        {% set section = getSectionByName('collective') %}
         {% if section is not null %}
-        {% set media = section.media.first %}
+                <a
+                    href="{{ path('app_edit_section', {'sectionType': 'collective'}) }}"
+                    class="video-edit-button edit-display"
+                    title="Modifier la section"
+                >
+                    ✎ Edit
+                </a>
+            {% set media = section.media.first %}
 
+            <div class="collective-content">
 
+                <div class="container-fluid full-width">
 
-        <video
-            id="techreel-video"
-            playsinline
-            preload="metadata"
-            controls
-        >
-            <source
-                src="{{ asset(media.path ~ media.filename) }}"
-                type="video/mp4"
-            >
+                    <div class="row row-no-gutter align-items-center">
 
-            Votre navigateur ne supporte pas la lecture vidéo.
-        </video>
+                        <div class="col-12 col-lg-6">
 
-        <button
-            type="button"
-            class="techreel-play"
-            id="techreel-play"
-            aria-label="Lire le Tech Reel"
-        >
-        <span class="techreel-play-icon">
-            ▶
-        </span>
+                            <div class="collective-image">
+                                <img
+                                    src="{{ asset(media.path ~ media.filename) }}"
+                                    alt="PepperJam collective"
+                                >
+                            </div>
 
-            <span class="techreel-play-label">
-            Watch our tech reel
-        </span>
-        </button>
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+
+                            <div class="collective-text">
+
+                                <h1><span>{{ section.data.title }}</span></h1>
+
+                                <div>
+                                    {{ section.data.content|raw }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
         {% endif %}
     </section>
+
+
+
+        <div class="container">
+            <div class="row">
+                {% include 'home/section/team.html.twig' %}
+            </div>
+        </div>
+
+
 
     <script>
         (() => {
@@ -488,23 +670,5 @@
             updateAudioInterface();
         })();
     </script>
-    <script>
-        (() => {
-            const video = document.getElementById('techreel-video');
-            const play = document.getElementById('techreel-play');
 
-            if (!video || !play) {
-                return;
-            }
-
-            play.addEventListener('click', function () {
-                video.play();
-                play.style.display = 'none';
-            });
-
-            video.addEventListener('ended', function () {
-                play.style.display = 'flex';
-            });
-        })();
-    </script>
 {% endblock %}

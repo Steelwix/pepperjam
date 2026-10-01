@@ -18,12 +18,8 @@
             array $options
         ): void {
             $builder
-                ->add('media', CollectionType::class, [
-                    'entry_type' => MediaType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'by_reference' => false,
-                    'label' => 'Médias',
+                ->add('media', MediaType::class, [
+                    'label' => 'Image',
                 ]);
         }
 

@@ -1,0 +1,142 @@
+.team-section {
+    position: relative;
+    width: 100%;
+    padding: 6rem 0;
+
+    background: #000;
+    color: #fff;
+
+    overflow: hidden;
+}
+
+.team-header {
+    width: min(1400px, 95%);
+    margin: 0 auto 3rem;
+}
+
+.team-kicker {
+    display: block;
+
+    margin-bottom: .75rem;
+
+    color: rgb(var(--color-primary));
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .3rem;
+}
+
+.team-header h2 {
+    margin: 0;
+
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+
+/* =========================
+   CAROUSEL
+========================= */
+
+.team-carousel {
+    width: 100%;
+    overflow: hidden;
+}
+
+.team-track {
+    display: flex;
+    width: max-content;
+}
+
+
+/* =========================
+   MEMBER
+========================= */
+
+.team-member {
+    display: grid;
+    grid-template-columns: minmax(300px, 500px) minmax(300px, 500px);
+
+    width: min(1000px, 90vw);
+
+    margin: 0 auto;
+
+    background: #0f0f0f;
+
+    border: 1px solid rgba(var(--color-primary), .3);
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+.team-member-image {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+
+    background: #111;
+}
+
+.team-member-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.team-member-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: clamp(2rem, 5vw, 4rem);
+}
+
+.team-member-role {
+    margin-bottom: .75rem;
+
+    color: rgb(var(--color-primary));
+
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .2rem;
+    text-transform: uppercase;
+}
+
+.team-member-info h3 {
+    margin: 0 0 1rem;
+
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.team-member-info p {
+    max-width: 450px;
+
+    margin: 0;
+
+    color: rgba(255,255,255,.65);
+    line-height: 1.7;
+}
+
+
+@media (max-width: 767px) {
+
+    .team-member {
+        grid-template-columns: 1fr;
+    }
+
+    .team-member-image {
+        aspect-ratio: 4 / 3;
+    }
+
+}

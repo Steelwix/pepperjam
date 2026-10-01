@@ -1,0 +1,399 @@
+<style>/* =========================
+   TEAM
+========================= */
+
+    .team-section {
+        width: min(1400px, 95%);
+        margin: 5rem auto;
+        padding: 2rem;
+
+        border: 2px solid rgb(var(--color-primary));
+        background: rgba(15, 15, 15, .50);
+        backdrop-filter: blur(8px);
+
+        position: relative;
+    }
+
+    .team-header {
+        margin-bottom: 2rem;
+
+        color: rgb(var(--color-secondary));
+        letter-spacing: .3rem;
+        font-size: .8rem;
+    }
+
+
+    /* =========================
+       MARQUEE
+    ========================= */
+
+    .team-marquee {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        padding: 30px 0;
+
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 5%,
+            black 95%,
+            transparent
+        );
+    }
+
+    .team-track {
+        display: flex;
+        width: max-content;
+    }
+
+    .team-track.scrolling {
+        animation: team-scroll 35s linear infinite;
+    }
+
+    .team-track.scrolling:hover {
+        animation-play-state: paused;
+    }
+
+
+    /* =========================
+       GROUP
+    ========================= */
+
+    .team-group {
+        display: flex;
+        align-items: stretch;
+        flex-shrink: 0;
+
+        gap: 30px;
+        padding-right: 30px;
+    }
+
+
+    /* =========================
+       MEMBER CARD
+    ========================= */
+
+    .team-card {
+        position: relative;
+
+        flex: 0 0 320px;
+        width: 320px;
+
+        overflow: hidden;
+
+        border: 1px solid rgba(var(--color-primary), .25);
+
+        background: rgba(10, 10, 10, .8);
+
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease,
+            transform .2s ease;
+    }
+
+    .team-card:hover {
+        border-color: rgb(var(--color-primary));
+
+        box-shadow:
+            0 0 20px rgba(var(--color-primary), .3);
+
+        transform: translateY(-5px);
+    }
+
+
+    /* =========================
+       IMAGE
+    ========================= */
+
+    .team-card-image {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+
+        overflow: hidden;
+    }
+
+    .team-card-image img {
+        display: block;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        transition: transform .4s ease;
+    }
+
+    .team-card:hover .team-card-image img {
+        transform: scale(1.04);
+    }
+
+
+    /* =========================
+       INFO
+    ========================= */
+
+    .team-card-info {
+        padding: 1.25rem;
+    }
+
+    .team-card-role {
+        display: block;
+
+        margin-bottom: .4rem;
+
+        color: rgb(var(--color-secondary));
+
+        font-size: .7rem;
+        font-weight: 700;
+
+        letter-spacing: .15rem;
+        text-transform: uppercase;
+    }
+
+    .team-card-info h3 {
+        margin: 0 0 .75rem;
+
+        color: #fff;
+
+        font-size: 1.5rem;
+        line-height: 1.1;
+    }
+
+    .team-card-info p {
+        margin: 0;
+
+        color: rgba(255, 255, 255, .7);
+
+        font-size: .9rem;
+        line-height: 1.5;
+    }
+
+
+    /* =========================
+       SCROLL
+    ========================= */
+
+    @keyframes team-scroll {
+
+        from {
+            transform: translate3d(0, 0, 0);
+        }
+
+        to {
+            transform: translate3d(-50%, 0, 0);
+        }
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 768px) {
+
+        .team-section {
+            width: 100%;
+            padding: 1.5rem 0;
+        }
+
+        .team-header {
+            padding: 0 1.5rem;
+        }
+
+        .team-marquee {
+            padding: 20px 0;
+        }
+
+        .team-card {
+            flex-basis: 260px;
+            width: 260px;
+        }
+
+        .team-group {
+            gap: 20px;
+            padding-right: 20px;
+        }
+    }</style>
+
+<section class="team-section cp-block" id="team">
+
+    <div class="team-header">
+        <h5 class="glitch-typed-span">// MEET THE TEAM //</h5>
+    </div>
+
+    {% set section = getSectionByName('team') %}
+    {% set team = getTeamMembers() %}
+
+    {# ADD MEMBER #}
+    <a
+        href="{{ path('app_edit_section', {'sectionType': 'team'}) }}"
+        class="btn btn-primary edit-display"
+        title="Modifier la section"
+    >
+        ✎ Add member
+    </a>
+
+    {% if section is not null and team|length > 0 and not editing %}
+
+        <div class="team-marquee">
+
+            <div class="team-track {% if team|length > 3  %}scrolling{% endif %}">
+
+                <div class="team-group">
+
+                    {% for member in team %}
+
+                        {% set media = member.media.first %}
+
+                        <article class="team-card">
+
+                            {# MODIFY MEMBER #}
+                            <a
+                                href="{{ path('app_edit_section', {
+                                    'sectionType': 'team',
+                                    'id': member.id
+                                }) }}"
+                                class="btn btn-primary edit-display"
+                                title="Modifier la section"
+                            >
+                                ✎ Edit member
+                            </a>
+
+                            <div class="team-card-image">
+                                {% if media %}
+                                    <img
+                                        src="{{ asset(media.path ~ media.filename) }}"
+                                        alt="{{ member.firstname }} {{ member.lastname }}"
+                                    >
+                                {% endif %}
+                            </div>
+
+                            <div class="team-card-info">
+
+                                <span class="team-card-role">
+                                    Creative Director
+                                </span>
+
+                                <h3>
+                                    {{ member.firstname }} {{ member.lastname }}
+                                </h3>
+
+                                {% if member.bio %}
+                                    <div class="team-card-bio">
+                                        {{ member.bio|raw }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+                {# COPIE POUR LE SCROLL #}
+                {% if team|length > 3 %}
+
+                    <div class="team-group" aria-hidden="true">
+
+                        {% for member in team %}
+
+                            {% set media = member.media.first %}
+
+                            <article class="team-card">
+
+                                <div class="team-card-image">
+                                    {% if media %}
+                                        <img
+                                            src="{{ asset(media.path ~ media.filename) }}"
+                                            alt=""
+                                        >
+                                    {% endif %}
+                                </div>
+
+                                <div class="team-card-info">
+                                    <span class="team-card-role">
+                                        Creative Director
+                                    </span>
+
+                                    <h3>
+                                        {{ member.firstname }} {{ member.lastname }}
+                                    </h3>
+
+                                    {% if member.bio %}
+                                        <div class="team-card-bio">
+                                            {{ member.bio|raw }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+    {% else %}
+
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle">
+
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Bio</th>
+                    <th class="text-end">Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                {% for member in team %}
+
+                    <tr>
+                        <td>{{ member.lastname }}</td>
+                        <td>{{ member.firstname }}</td>
+                        <td>
+                            {{ member.bio|raw }}
+                        </td>
+                        <td class="text-end">
+                            <a
+                                href="{{ path('app_edit_section', {
+                                    'sectionType': 'team',
+                                    'id': member.id
+                                }) }}"
+                                class="btn btn-primary btn-sm"
+                            >
+                                ✎ Edit
+                            </a>
+                            <a
+                                href="{{ path('app_edit_section', {
+                                    'sectionType': 'team',
+                                    'id': member.id
+                                }) }}"
+                                class="btn btn-primary btn-sm"
+                            >
+                                ✎ Delete
+                            </a>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+        </div>
+
+    {% endif %}
+
+</section>
