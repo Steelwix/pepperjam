@@ -34,6 +34,12 @@ class Media
     #[ORM\ManyToOne(inversedBy: 'media')]
     private ?Member $member = null;
 
+    #[ORM\ManyToOne(inversedBy: 'media')]
+    private ?Activity $activity = null;
+
+    #[ORM\ManyToOne(inversedBy: 'media')]
+    private ?Project $project = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,6 +125,30 @@ class Media
     public function setMember(?Member $member): static
     {
         $this->member = $member;
+
+        return $this;
+    }
+
+    public function getActivity(): ?Activity
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(?Activity $activity): static
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): static
+    {
+        $this->project = $project;
 
         return $this;
     }

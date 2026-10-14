@@ -1,0 +1,72 @@
+    /* ACTIVITIES */
+#activities {
+    padding: 0;
+}
+
+#activities > .row {
+    height: 100%;
+    min-height: 300px;
+    align-items: stretch;
+}
+
+#activities .activity-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    padding: 30px;
+    box-sizing: border-box;
+
+    background-size: cover;
+    background-position: center;
+
+    color: #fff !important;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+#activities .activity-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    transition: background 0.3s ease;
+}
+
+#activities .activity-button:hover::before {
+    background: rgba(180, 0, 0, 0.5);
+}
+
+#activities .activity-button span {
+    position: relative;
+    z-index: 1;
+    max-width: 90%;
+
+    color: #fff !important;
+    font-size: clamp(14px, 1.4vw, 20px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0.08em;
+    text-align: center;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 991.98px) {
+    #activities,
+    #activities > .row {
+        height: auto;
+    }
+
+    #activities > .row {
+        min-height: 0;
+    }
+
+    #activities .activity-button {
+        min-height: 300px;
+    }
+}

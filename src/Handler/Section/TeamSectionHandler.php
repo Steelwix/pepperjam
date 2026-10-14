@@ -61,8 +61,11 @@
             } else {
                 $member = $this->em->getRepository(Member::class)->find($datas['id']);
             }
+            $links = $member->getData()['links'] ?? [];
 
-            $form = $this->formFactory->create(MemberType::class, $member);
+            $form = $this->formFactory->create(MemberType::class, $member, [
+                'links' => $links,
+            ]);
             $form->handleRequest($request);
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
@@ -85,10 +88,11 @@
                 $member->setData($data);
                 $member->setBio($bio);
                 $this->em->persist($member);
+                $this->em->flush();
+
                 return new Response(
                     $this->twig->render('home/section/turbo-load/team.html.twig', [
                         'section' => $section,
-                        'form' => $form->createView(),
                         'spot' => Section::TEAM_TYPE,
                         'editing' => true
                     ])
@@ -96,8 +100,9 @@
             }
 
             return new Response(
-                $this->twig->render('home/section/add-team-member.html.twig', [
+                $this->twig->render('home/section/form/team-member-form.html.twig', [
                     'section' => $section,
+                    'member' => $member,
                     'form' => $form->createView(),
                     'spot' => Section::TEAM_TYPE
                 ])

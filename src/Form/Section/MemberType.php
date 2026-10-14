@@ -40,6 +40,7 @@
                     'allow_add' => true,
                     'allow_delete' => true,
                     'mapped' => false,
+                    'data' => $options['links'],
                 ]);
         }
 
@@ -47,6 +48,7 @@
         {
             $resolver->setDefaults([
                 'data_class' => Member::class,
+                'links' => [],
             ]);
         }
     }

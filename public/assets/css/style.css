@@ -2,5 +2,25 @@
     --bs-body-bg: #000 !important;
     --bs-body-color: #fff;
 }
+body:not(.editing) .edit-display {
+    display: none;
+}
 
+.container-fluid.full-width {
+    padding-left: 0;
+    padding-right: 0;
+    overflow-x: hidden;
+}
 
+.row.row-no-gutter {
+    margin: 0
+}
+
+.row.row-no-gutter [class*="col-"] {
+    padding: 0
+}
+
+.has-inner .row.row-no-gutter {
+    margin-left: -10px;
+    margin-right: -10px;
+}

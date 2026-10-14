@@ -1,0 +1,82 @@
+<section id="activities" class="col-12 col-lg-6 p-0 position-relative">
+
+    {% set activities = getActivities() %}
+
+    {% if editing %}
+        <a
+            href="{{ path('app_edit_section', {'sectionType': 'activities'}) }}"
+            class="btn btn-primary edit-display"
+            title="Add activity"
+            style="position: absolute; top: 10px; right: 10px; z-index: 2;"
+        >
+            ✎ Add activity
+        </a>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for activity in activities %}
+                <tr>
+                    <td>{{ activity.id }}</td>
+                    <td>{{ activity.title }}</td>
+                    <td>
+                        <a
+                            href="{{ path('app_edit_section', {
+                                'sectionType': 'activities',
+                                'id': activity.id
+                            }) }}"
+                            class="btn btn-primary btn-sm"
+                        >
+                            ✎ Edit
+                        </a>
+
+                        <a
+                            href="{{ path('app_remove_activity', {
+                                'id': activity.id
+                            }) }}"
+                            class="btn btn-danger btn-sm"
+                        >
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucune activité.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <div class="row g-0 h-100">
+            {% for activity in activities %}
+                {% set media = activity.media.first ?? null %}
+
+                <div class="col-12 col-md-{{ 12 // (activities|length) }} position-relative p-0">
+                    <a
+                        href="{{ path('app_activity_view', {id: activity.id}) }}"
+                        class="activity-button"
+                        {% if media %}
+                            style="background-image: url('{{ asset(media.path ~ media.filename) }}');"
+                        {% endif %}
+                    >
+                        <span>{{ activity.title }}</span>
+                    </a>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    Aucune activité.
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</section>

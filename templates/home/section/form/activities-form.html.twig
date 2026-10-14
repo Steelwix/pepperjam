@@ -1,0 +1,174 @@
+<style>
+    /* Prévisualisation du média */
+    .activity-media-preview {
+        max-height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .activity-media-preview img,
+    .activity-media-preview video {
+        display: block;
+        width: 100%;
+        max-height: 250px;
+        object-fit: contain;
+    }
+</style>
+
+<turbo-stream action="replace" target="activities">
+    <template>
+        <section id="activities" class="col-12 col-lg-6 p-0 position-relative container py-5">
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-9">
+
+                    <div class="card bg-dark border-secondary shadow-lg overflow-hidden">
+                        <div class="card-body p-4 p-md-5">
+
+                            {# En-tête #}
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div
+                                    class="d-flex align-items-center justify-content-center rounded-3 bg-primary bg-opacity-25 text-primary"
+                                    style="width: 48px; height: 48px;"
+                                >
+                                    <i class="bi bi-collection-play fs-4"></i>
+                                </div>
+
+                                <div>
+                                    <h3 class="mb-1">
+                                        {{ activity.id is defined and activity.id ? 'Modify activity' : 'Add activity' }}
+                                    </h3>
+                                    <p class="text-secondary mb-0">
+                                        Configure the title and media displayed for this activity.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {# Formulaire #}
+                            {% if activity.id is defined and activity.id %}
+                                {{ form_start(form, {
+                                    action: path('app_edit_section', {
+                                        sectionType: spot,
+                                        id: activity.id
+                                    }),
+                                    attr: {
+                                        'data-turbo': 'true'
+                                    }
+                                }) }}
+                            {% else %}
+                                {{ form_start(form, {
+                                    action: path('app_edit_section', {
+                                        sectionType: spot
+                                    }),
+                                    attr: {
+                                        'data-turbo': 'true'
+                                    }
+                                }) }}
+                            {% endif %}
+
+                            <div class="p-4 mb-4 rounded-4 bg-black bg-opacity-25 border border-secondary border-opacity-50">
+
+                                {# Titre #}
+                                <div class="mb-4">
+                                    {{ form_label(form.title, 'Title', {
+                                        label_attr: {
+                                            class: 'form-label fw-semibold'
+                                        }
+                                    }) }}
+
+                                    {{ form_widget(form.title, {
+                                        attr: {
+                                            class: 'form-control',
+                                            placeholder: 'Activity title'
+                                        }
+                                    }) }}
+
+                                    {{ form_errors(form.title) }}
+                                </div>
+
+                                {# Média existant #}
+                                {% set currentMedia = activity.media ?? null %}
+
+                                {% if currentMedia and currentMedia.filename is defined and currentMedia.filename %}
+                                    {% set ext = currentMedia.filename|split('.')|last|lower %}
+
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold">
+                                            Current media
+                                        </label>
+
+                                        <div class="activity-media-preview rounded-4 border border-secondary border-opacity-50 bg-black">
+
+                                            {% if ext in ['mp4', 'webm', 'ogg', 'mov'] %}
+                                                <video
+                                                    controls
+                                                    playsinline
+                                                    preload="metadata"
+                                                >
+                                                    <source
+                                                        src="{{ asset(currentMedia.path ~ currentMedia.filename) }}"
+                                                        type="{{ currentMedia.mimeType|default('video/mp4') }}"
+                                                    >
+                                                    Your browser does not support video playback.
+                                                </video>
+
+                                            {% elseif ext in ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'] %}
+                                                <img
+                                                    src="{{ asset(currentMedia.path ~ currentMedia.filename) }}"
+                                                    alt="{{ activity.title }}"
+                                                >
+                                            {% else %}
+                                                <p class="text-secondary p-3 mb-0">
+                                                    Preview unavailable for this file type.
+                                                </p>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {# Champ média #}
+                                <div class="mb-2">
+                                    {{ form_row(form.media, {
+                                        label: 'Media file',
+                                        attr: {
+                                            class: 'form-control'
+                                        },
+                                        label_attr: {
+                                            class: 'form-label fw-semibold'
+                                        }
+                                    }) }}
+                                </div>
+
+                            </div>
+
+                            {# Boutons #}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a
+                                    href="{{ path('app_edit_section', {
+                                        sectionType: spot
+                                    }) }}"
+                                    class="btn btn-outline-secondary"
+                                >
+                                    Cancel
+                                </a>
+
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="bi bi-cloud-arrow-up me-2"></i>
+                                    {{ activity.id is defined and activity.id ? 'Save changes' : 'Create activity' }}
+                                </button>
+                            </div>
+
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </template>
+</turbo-stream>

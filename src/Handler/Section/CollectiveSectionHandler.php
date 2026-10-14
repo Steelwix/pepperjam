@@ -44,9 +44,10 @@
 
                 $this->em->persist($section);
             }
-
-            $form = $this->formFactory->create(CollectiveType::class);
+            $data = $section->getData();
+            $form = $this->formFactory->create(CollectiveType::class, $data);
             $form->handleRequest($request);
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $formData = $form->getData();
@@ -58,12 +59,17 @@
 
                 $data = $this->sectionService->buildData($formData);
                 $section->setData($data);
-
+                return new Response(
+                    $this->twig->render('home/section/turbo-load/collective.html.twig', [
+                        'media' => $section->getMedia()->first(),
+                        'form' => $form->createView(),
+                        'spot' => Section::COLLECTIVE_TYPE
+                    ])
+                );
             }
-            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
             return new Response(
-                $this->twig->render('home/section/collective.html.twig', [
+                $this->twig->render('home/section/form/collective-form.html.twig', [
                     'media' => $section->getMedia()->first(),
                     'form' => $form->createView(),
                     'spot' => Section::COLLECTIVE_TYPE

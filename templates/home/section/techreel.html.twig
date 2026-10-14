@@ -1,0 +1,28 @@
+<section class="col-12 col-lg-6" id="techreel">
+    {% set section = getSectionByName('techreel') %}
+    <a href="{{ path('app_edit_section', {'sectionType': 'techreel'}) }}"
+       class="video-edit-button edit-display"
+       title="Modifier la vidéo">
+        ✎ Edit
+    </a>
+    {% if section is not null %}
+        {% set media = section.media.first %}
+
+        <div class="techreel-video">
+
+
+            <video
+                id="techreel-video"
+                playsinline
+                preload="metadata"
+                controls
+            >
+                <source
+                    src="{{ asset(media.path ~ media.filename) }}"
+                    type="video/mp4"
+                >
+            </video>
+
+        </div>
+    {% endif %}
+</section>

@@ -1,0 +1,60 @@
+.techreel {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #000;
+    color: #fff;
+}
+
+#techreel {
+    position: relative;
+}
+
+.video-edit-button {
+    position: absolute;
+    z-index: 4;
+    top: 24px;
+    right: 5vw;
+}
+
+.techreel-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.techreel-video video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.techreel-layout {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.techreel-layout > .col-12 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.techreel-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.techreel-video video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

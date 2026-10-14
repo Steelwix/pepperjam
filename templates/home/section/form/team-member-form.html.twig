@@ -27,6 +27,21 @@
             }) }}
 
             <trix-editor input="{{ form.bio.vars.id }}"></trix-editor>
+            {% if member is defined %}
+                <p>member defined</p>
+                {% set currentMedia = member.media.first %}
+
+                {% if currentMedia %}
+                    <div class="mb-3">
+                        <img
+                            src="{{ asset(currentMedia.path ~ currentMedia.filename) }}"
+                            alt="{{ member.firstname }} {{ member.lastname }}"
+                            class="img-fluid"
+                            style="max-width: 300px;"
+                        >
+                    </div>
+                {% endif %}
+            {% endif %}
 
             {{ form_row(form.media) }}
 

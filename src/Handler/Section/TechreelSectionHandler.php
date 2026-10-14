@@ -68,12 +68,18 @@
                     $form->get('media')->getData(),
                     $section, $section->getMedia()->first()?: null
                 );
-
+                return new Response(
+                    $this->twig->render('home/section/turbo-load/techreel.html.twig', [
+                        'media' => $section->getMedia()->first(),
+                        'form' => $form->createView(),
+                        'spot' => Section::TECHREEL_TYPE
+                    ])
+                );
             }
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
             return new Response(
-                $this->twig->render('home/section/showreel.html.twig', [
+                $this->twig->render('home/section/form/showreel-form.html.twig', [
                     'media' => $section->getMedia()->first(),
                     'form' => $form->createView(),
                     'spot' => Section::TECHREEL_TYPE

@@ -67,4 +67,10 @@
                 unlink($path);
             }
         }
+
+        public function remove(Media $media): void
+        {
+            $this->removeFile($media);
+            $this->em->remove($media);
+        }
     }

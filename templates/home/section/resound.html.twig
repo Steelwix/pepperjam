@@ -1,0 +1,378 @@
+<style>
+    /* =========================
+       RESOUND
+    ========================= */
+
+    .resound-section {
+        width: min(1400px, 95%);
+        margin: 5rem auto;
+        padding: 2rem;
+        border: 2px solid rgb(var(--color-primary));
+        background: rgba(15, 15, 15, .50);
+        backdrop-filter: blur(8px);
+        position: relative;
+    }
+
+    .resound-header {
+        margin-bottom: 2rem;
+        color: rgb(var(--color-secondary));
+        letter-spacing: .3rem;
+        font-size: .8rem;
+    }
+
+
+    /* =========================
+       MARQUEE
+    ========================= */
+
+    .resound-marquee {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        padding: 30px 0;
+
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 5%,
+            black 95%,
+            transparent
+        );
+    }
+
+    .resound-track {
+        display: flex;
+        width: max-content;
+    }
+
+    .resound-track.scrolling {
+        animation: resound-scroll 40s linear infinite !important;
+    }
+
+    .resound-track.scrolling:hover {
+        animation-play-state: paused;
+    }
+
+
+    /* =========================
+       GROUP
+    ========================= */
+
+    .resound-group {
+        display: flex;
+        align-items: stretch;
+        flex-shrink: 0;
+        gap: 30px;
+        padding-right: 30px;
+    }
+
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .resound-card {
+        position: relative;
+        flex: 0 0 420px;
+        width: 420px;
+        min-width: 0;
+        overflow: hidden;
+
+        border: 1px solid rgba(var(--color-primary), .25);
+        background: rgba(10, 10, 10, .8);
+
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease,
+            transform .2s ease;
+    }
+
+    .resound-card:hover {
+        border-color: rgb(var(--color-primary));
+        box-shadow: 0 0 20px rgba(var(--color-primary), .3);
+        transform: translateY(-5px);
+    }
+
+
+    /* =========================
+       VIDEO
+    ========================= */
+
+    .resound-video {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #000;
+        overflow: hidden;
+    }
+
+    .resound-video video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .resound-info {
+        padding: 1.25rem;
+    }
+
+    .resound-category {
+        display: block;
+        margin-bottom: .5rem;
+        color: rgb(var(--color-secondary));
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .15rem;
+        text-transform: uppercase;
+    }
+
+    .resound-info h3 {
+        margin: 0;
+        color: #fff;
+        font-size: 1.4rem;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================
+       SCROLL
+    ========================= */
+
+    @keyframes resound-scroll {
+        from {
+            transform: translate3d(0, 0, 0);
+        }
+
+        to {
+            transform: translate3d(-50%, 0, 0);
+        }
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 768px) {
+        .resound-section {
+            width: 100%;
+            padding: 1.5rem;
+        }
+
+        .resound-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .resound-marquee {
+            padding: 20px 0;
+        }
+
+        .resound-card {
+            flex-basis: 300px;
+            width: 300px;
+        }
+
+        .resound-group {
+            gap: 20px;
+            padding-right: 20px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .resound-track.scrolling {
+            animation: none;
+        }
+    }
+</style>
+
+
+<section class="resound-section cp-block" id="resound">
+
+    <div class="resound-header">
+        <h5 class="glitch-typed-span">// RESOUND //</h5>
+    </div>
+
+    {% set section = getSectionByName('resound') %}
+    {% set resounds = getResounds() %}
+
+    {# ADD RESOUND #}
+    <a
+        href="{{ path('app_edit_section', {'sectionType': 'resound'}) }}"
+        class="btn btn-primary edit-display mb-3"
+        title="Ajouter un Resound"
+    >
+        ✎ Add Resound
+    </a>
+
+    {% if section is not null and resounds|length > 0 and not editing %}
+
+        <div class="resound-marquee">
+
+            <div class="resound-track {% if resounds|length > 2 %}scrolling{% endif %}">
+
+                {# GROUPE PRINCIPAL #}
+                <div class="resound-group">
+
+                    {% for resound in resounds %}
+
+                        {% set media = resound.media %}
+
+                        <article class="resound-card">
+
+                            {# MODIFY RESOUND #}
+                            <a
+                                href="{{ path('app_edit_section', {
+                                    'sectionType': 'resound',
+                                    'id': resound.id
+                                }) }}"
+                                class="btn btn-primary btn-sm edit-display"
+                                title="Modifier le Resound"
+                            >
+                                ✎ Edit
+                            </a>
+
+                            <div class="resound-video">
+
+                                {% if media %}
+                                    <video controls preload="metadata">
+                                        <source
+                                            src="{{ asset(media.path ~ media.filename) }}"
+                                            type="{{ media.mimeType|default('video/mp4') }}"
+                                        >
+                                        Votre navigateur ne supporte pas la lecture vidéo.
+                                    </video>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="resound-info">
+
+                                <span class="resound-category">
+                                    Sound redesign
+                                </span>
+
+                                <h3>{{ resound.title }}</h3>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+
+                {# COPIE POUR LE SCROLL SEAMLESS #}
+                {% if resounds|length > 2 %}
+
+                    <div class="resound-group" aria-hidden="true">
+
+                        {% for resound in resounds %}
+
+                            {% set media = resound.media %}
+
+                            <article class="resound-card">
+
+                                <div class="resound-video">
+
+                                    {% if media %}
+                                        <video
+                                            controls
+                                            preload="metadata"
+                                            tabindex="-1"
+                                        >
+                                            <source
+                                                src="{{ asset(media.path ~ media.filename) }}"
+                                                type="{{ media.mimeType|default('video/mp4') }}"
+                                            >
+                                        </video>
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="resound-info">
+
+                                    <span class="resound-category">
+                                        Sound redesign
+                                    </span>
+
+                                    <h3>{{ resound.title }}</h3>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        {# TABLEAU D'ADMINISTRATION #}
+        <div class="table-responsive">
+
+            <table class="table table-dark table-hover align-middle">
+
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                {% for resound in resounds %}
+
+                    <tr>
+
+                        <td>{{ resound.title }}</td>
+
+                        <td class="text-end text-nowrap">
+
+                            <a
+                                href="{{ path('app_edit_section', {
+                                    'sectionType': 'resound',
+                                    'id': resound.id
+                                }) }}"
+                                class="btn btn-primary btn-sm"
+                            >
+                                ✎ Edit
+                            </a>
+
+                            <a
+                                href="{{ path('app_remove_resound', {
+                                    'id': resound.id
+                                }) }}"
+                                class="btn btn-primary btn-sm"
+                            >
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% endif %}
+
+</section>
