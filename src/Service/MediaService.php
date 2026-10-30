@@ -4,6 +4,7 @@
 
     use AllowDynamicProperties;
     use App\Entity\Media;
+    use App\Entity\Project;
     use App\Entity\Section;
     use App\Repository\MediaRepository;
     use Doctrine\ORM\EntityManagerInterface;
@@ -30,16 +31,48 @@
             Section $section,
             ?Media $media = null
         ): Media {
-            $filename = bin2hex(random_bytes(16)) . '.' . $file->guessExtension();
+            $media = $this->store($file, $media);
 
-            // Si le Media existe déjà, on supprime son ancien fichier physique.
+            // Si le Media n'est pas encore lié à cette Section,
+            // on l'associe.
+            if (!$section->getMedia()->contains($media)) {
+                $section->addMedium($media);
+            }
+
+            return $media;
+        }
+
+        public function createForProject(UploadedFile $file, Project $project): Media
+        {
+            $media = $this->store($file);
+            $project->addMedium($media);
+
+            return $media;
+        }
+
+        public function replaceForProject(UploadedFile $file, Project $project): Media
+        {
+            foreach ($project->getMedia()->toArray() as $existingMedia) {
+                $project->removeMedium($existingMedia);
+                $this->remove($existingMedia);
+            }
+
+            return $this->createForProject($file, $project);
+        }
+
+        /**
+         * @throws RandomException
+         */
+        private function store(UploadedFile $file, ?Media $media = null): Media
+        {
             if ($media) {
                 $this->removeFile($media);
             } else {
-                // Aucun Media fourni → on crée l'entité.
                 $media = new Media();
                 $this->em->persist($media);
             }
+
+            $filename = bin2hex(random_bytes(16)) . '.' . $file->guessExtension();
             $media
                 ->setFilename($filename)
                 ->setPath('upload/')
@@ -47,15 +80,7 @@
                 ->setMimeType($file->getMimeType())
                 ->setCreatedAt(new \DateTimeImmutable());
 
-            // Si le Media n'est pas encore lié à cette Section,
-            // on l'associe.
-            if (!$section->getMedia()->contains($media)) {
-                $section->addMedium($media);
-            }
-            // Déplacement du nouveau fichier
             $file->move($this->uploadDirectory, $filename);
-
-
 
             return $media;
         }

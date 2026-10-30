@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ project.id ? 'Modifier le projet' : 'Créer un projet' }} — {{ parent() }}{% endblock %}
+
+{% block body %}
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="card bg-dark border-secondary shadow-lg">
+                    <div class="card-body p-4 p-md-5">
+                        <h1 class="h3 mb-4">{{ project.id ? 'Modifier le projet' : 'Créer un projet' }}</h1>
+
+                        {{ form_start(form, {
+                            action: project.id
+                                ? path('app_activity_project_edit', { id: project.id })
+                                : path('app_activity_project_create'),
+                            attr: { class: 'vstack gap-4' }
+                        }) }}
+                            {{ form_row(form.activity, {
+                                attr: { class: 'form-select' },
+                                label_attr: { class: 'form-label fw-semibold' }
+                            }) }}
+
+                            {% if project.media|length > 0 %}
+                                {% set currentMedia = project.media|first %}
+                                <div class="mb-3">
+                                    <p class="form-label fw-semibold">Média actuel</p>
+                                    <div class="rounded border border-secondary bg-black p-2 text-center">
+                                        {% if currentMedia.mimeType starts with 'image/' %}
+                                            <img
+                                                src="{{ asset(currentMedia.path ~ currentMedia.filename) }}"
+                                                alt="Média actuel du projet"
+                                                class="img-fluid rounded"
+                                                style="max-height: 320px; object-fit: contain;"
+                                            >
+                                        {% elseif currentMedia.mimeType starts with 'video/' %}
+                                            <video
+                                                controls
+                                                playsinline
+                                                preload="metadata"
+                                                class="img-fluid rounded"
+                                                style="max-height: 320px;"
+                                            >
+                                                <source
+                                                    src="{{ asset(currentMedia.path ~ currentMedia.filename) }}"
+                                                    type="{{ currentMedia.mimeType }}"
+                                                >
+                                                Ton navigateur ne peut pas lire cette vidéo.
+                                            </video>
+                                        {% else %}
+                                            <p class="text-secondary mb-0">{{ currentMedia.originalName }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {{ form_row(form.mediaFile, {
+                                attr: { class: 'form-control', accept: 'video/mp4,video/quicktime,image/jpeg,image/png,image/gif' },
+                                label_attr: { class: 'form-label fw-semibold' },
+                                help: project.id
+                                    ? 'Choisissez un fichier pour remplacer le média actuel (jusqu’à 100 Mo).'
+                                    : 'Choisissez une image ou une vidéo (MP4 ou MOV), jusqu’à 100 Mo.'
+                            }) }}
+
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ project.activity ? path('app_activity_view', { id: project.activity.id, editing: true }) : path('app_home', { editing: true }) }}" class="btn btn-outline-secondary">
+                                    Annuler
+                                </a>
+                                {{ form_widget(form.save, { attr: { class: 'btn btn-primary px-4' } }) }}
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

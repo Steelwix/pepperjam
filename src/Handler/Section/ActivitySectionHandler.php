@@ -64,20 +64,19 @@
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $media = $this->mediaService->create(
                     $form->get('media')->getData()['media'],
                     $section,  $activity->getMedia()->first()?:null
                 );
 
                 $activity->addMedium($media);
+
                 $this->em->persist($activity);
 
                 $this->em->flush();
                 return new Response(
                     $this->twig->render('home/section/turbo-load/activities.html.twig', [
                         'section' => $section,
-                        'form' => $form->createView(),
                         'spot' => Section::ACTIVITIES_TYPE,
                         'editing' => true
                     ])
