@@ -33,6 +33,9 @@ class Member
     #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'member')]
     private Collection $media;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $role = null;
+
     public function __construct()
     {
         $this->media = new ArrayCollection();
@@ -117,6 +120,18 @@ class Member
                 $medium->setMember(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(?string $role): static
+    {
+        $this->role = $role;
 
         return $this;
     }

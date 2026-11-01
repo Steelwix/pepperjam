@@ -4,7 +4,8 @@
 
             {{ form_start(form, {
                 action: path('app_edit_section', {
-                    sectionType: spot
+                    sectionType: spot,
+                    id: member.id|default(null)
                 }),
                 attr: {
                     'data-turbo': 'true'
@@ -13,6 +14,7 @@
 
             {{ form_row(form.firstname) }}
             {{ form_row(form.lastname) }}
+            {{ form_row(form.role) }}
 
             {{ form_label(form.bio, 'Bio', {
                 label_attr: {
@@ -28,7 +30,6 @@
 
             <trix-editor input="{{ form.bio.vars.id }}"></trix-editor>
             {% if member is defined %}
-                <p>member defined</p>
                 {% set currentMedia = member.media.first %}
 
                 {% if currentMedia %}
@@ -76,38 +77,28 @@
             {{ form_end(form) }}
 
             <script>
-                const linksList = document.getElementById('links-list');
-                const addBtn = document.getElementById('add-link');
+                (() => {
+                    const linksList = document.getElementById('links-list');
+                    const addBtn = document.getElementById('add-link');
+                    if (!linksList || !addBtn) {
+                        return;
+                    }
 
-                let index = parseInt(
-                    linksList.dataset.index,
-                    10
-                );
+                    let index = parseInt(linksList.dataset.index, 10);
 
-                addBtn.addEventListener('click', () => {
+                    addBtn.addEventListener('click', () => {
+                        const prototype = linksList.dataset.prototype;
+                        const newForm = prototype.replace(/__name__/g, index);
+                        const wrapper = document.createElement('div');
 
-                    const prototype = linksList.dataset.prototype;
+                        wrapper.classList.add('link-item', 'mb-3');
+                        wrapper.innerHTML = newForm;
+                        linksList.appendChild(wrapper);
 
-                    const newForm = prototype.replace(
-                        /__name__/g,
-                        index
-                    );
-
-                    const wrapper = document.createElement('div');
-
-                    wrapper.classList.add(
-                        'link-item',
-                        'mb-3'
-                    );
-
-                    wrapper.innerHTML = newForm;
-
-                    linksList.appendChild(wrapper);
-
-                    index++;
-
-                    linksList.dataset.index = index;
-                });
+                        index++;
+                        linksList.dataset.index = index;
+                    });
+                })();
             </script>
 
         </section>

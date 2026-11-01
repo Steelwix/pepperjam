@@ -25,6 +25,10 @@
                     'label' => 'Nom',
                     'required' => false,
                 ])
+                ->add('role', TextType::class, [
+                    'label' => 'Role',
+                    'required' => false,
+                ])
                 ->add('bio',  TextareaType::class, [
                     'attr' => [
                         'class' => 'trix-content',
@@ -34,6 +38,7 @@
                 ->add('media', MediaType::class, [
                     'label' => 'Image',
                     'mapped' => false,
+                    'required' => false,
                 ])
                 ->add('links', CollectionType::class, [
                     'entry_type' => LinkMemberDataType::class,

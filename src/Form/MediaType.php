@@ -20,6 +20,7 @@
             $builder
                 ->add('media', FileType::class, [
                     'label' => 'Fichier',
+                    'required' => $options['required'],
                     'constraints' => [
                         new File([
                             'maxSize' => '100M',
@@ -42,6 +43,9 @@
         public function configureOptions(
             OptionsResolver $resolver
         ): void {
+            $resolver->setDefaults([
+                'required' => true,
+            ]);
 //            $resolver->setDefaults([
 //                'data_class' => Media::class,
 //            ]);

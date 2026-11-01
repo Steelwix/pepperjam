@@ -169,7 +169,6 @@
         line-height: 1.5;
     }
 
-
     /* =========================
        SCROLL
     ========================= */
@@ -271,18 +270,21 @@
 
                             <div class="team-card-info">
 
-                                <span class="team-card-role">
-                                    Creative Director
-                                </span>
+                                {% if member.role %}
+                                    <span class="team-card-role">{{ member.role }}</span>
+                                {% endif %}
 
                                 <h3>
                                     {{ member.firstname }} {{ member.lastname }}
                                 </h3>
 
                                 {% if member.bio %}
-                                    <div class="team-card-bio">
-                                        {{ member.bio|raw }}
-                                    </div>
+                                    <button
+                                        class="team-bio-open"
+                                        type="button"
+                                        data-member-modal="team-bio-{{ member.id }}"
+                                        aria-haspopup="dialog"
+                                    >Read bio</button>
                                 {% endif %}
 
                             </div>
@@ -314,19 +316,14 @@
                                 </div>
 
                                 <div class="team-card-info">
-                                    <span class="team-card-role">
-                                        Creative Director
-                                    </span>
+                                    {% if member.role %}
+                                        <span class="team-card-role">{{ member.role }}</span>
+                                    {% endif %}
 
                                     <h3>
                                         {{ member.firstname }} {{ member.lastname }}
                                     </h3>
 
-                                    {% if member.bio %}
-                                        <div class="team-card-bio">
-                                            {{ member.bio|raw }}
-                                        </div>
-                                    {% endif %}
                                 </div>
 
                             </article>
@@ -396,3 +393,53 @@
     {% endif %}
 
 </section>
+
+{% if section is not null and team|length > 0 and not editing %}
+    {% for member in team %}
+        {% set media = member.media.first %}
+        <dialog class="team-bio-modal" id="team-bio-{{ member.id }}" aria-labelledby="team-bio-title-{{ member.id }}">
+            <div class="team-bio-modal__layout">
+                {% if media %}
+                    <div class="team-bio-modal__image">
+                        <img src="{{ asset(media.path ~ media.filename) }}" alt="{{ member.firstname }} {{ member.lastname }}">
+                    </div>
+                {% endif %}
+                <div class="team-bio-modal__body">
+                    <button class="team-bio-modal__close" type="button" data-close-member-modal aria-label="Close dialog">×</button>
+                    {% if member.role %}
+                        <p class="team-bio-modal__role">{{ member.role }}</p>
+                    {% endif %}
+                    <h2 id="team-bio-title-{{ member.id }}">{{ member.firstname }} {{ member.lastname }}</h2>
+                    <div class="team-bio-modal__text">{{ member.bio|raw }}</div>
+                </div>
+            </div>
+        </dialog>
+    {% endfor %}
+{% endif %}
+
+<script>
+    (() => {
+        if (document.documentElement.dataset.teamBioDialogsBound) {
+            return;
+        }
+        document.documentElement.dataset.teamBioDialogsBound = 'true';
+
+        document.addEventListener('click', (event) => {
+            const openButton = event.target.closest('[data-member-modal]');
+            if (openButton) {
+                document.getElementById(openButton.dataset.memberModal)?.showModal();
+                return;
+            }
+
+            const closeButton = event.target.closest('[data-close-member-modal]');
+            if (closeButton) {
+                closeButton.closest('dialog')?.close();
+                return;
+            }
+
+            if (event.target instanceof HTMLDialogElement && event.target.classList.contains('team-bio-modal')) {
+                event.target.close();
+            }
+        });
+    })();
+</script>

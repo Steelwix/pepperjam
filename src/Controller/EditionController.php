@@ -44,7 +44,9 @@
             if($member === null){
                 throw $this->createNotFoundException();
             }
-            $this->mediaService->remove($member->getMedia()->first());
+            foreach ($member->getMedia() as $media) {
+                $this->mediaService->remove($media);
+            }
             $this->em->remove($member);
             $this->em->flush();
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
@@ -70,7 +72,9 @@
             if($resound === null){
                 throw $this->createNotFoundException();
             }
-            $this->mediaService->remove($resound->getMedia());
+            if ($resound->getMedia() !== null) {
+                $this->mediaService->remove($resound->getMedia());
+            }
             $this->em->remove($resound);
             $this->em->flush();
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
@@ -95,7 +99,9 @@
             if($activity === null){
                 throw $this->createNotFoundException();
             }
-            $this->mediaService->remove($activity->getMedia()->first());
+            foreach ($activity->getMedia() as $media) {
+                $this->mediaService->remove($media);
+            }
             $this->em->remove($activity);
             $this->em->flush();
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);

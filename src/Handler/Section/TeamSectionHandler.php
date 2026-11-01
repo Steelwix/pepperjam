@@ -71,11 +71,15 @@
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                $media = $this->mediaService->create(
-                    $form->get('media')->getData()['media'],
-                    $section,  $member->getMedia()->first()?:null
-                );
-                $member->addMedium($media);
+                $uploadedMedia = $form->get('media')->get('media')->getData();
+                if ($uploadedMedia !== null) {
+                    $media = $this->mediaService->create(
+                        $uploadedMedia,
+                        $section,
+                        $member->getMedia()->first() ?: null
+                    );
+                    $member->addMedium($media);
+                }
                 $bio = $this->sectionService->handleTextArea($member->getBio());
 
                 $data = $member->getData();
