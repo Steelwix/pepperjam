@@ -49,8 +49,9 @@
         animation: resound-scroll 40s linear infinite !important;
     }
 
-    .resound-track.scrolling:hover {
-        animation-play-state: paused;
+    .resound-track.scrolling.video-hovered,
+    .resound-track.scrolling.video-playing {
+        animation-play-state: paused !important;
     }
 
 
@@ -184,11 +185,6 @@
         }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-        .resound-track.scrolling {
-            animation: none;
-        }
-    }
 </style>
 
 
@@ -376,3 +372,50 @@
     {% endif %}
 
 </section>
+
+<script>
+    (() => {
+        const bindResoundVideos = () => {
+            document.querySelectorAll('#resound .resound-track video:not([data-scroll-pause-bound])')
+                .forEach((video) => {
+                    const track = video.closest('.resound-track');
+                    if (!track) {
+                        return;
+                    }
+
+                    video.dataset.scrollPauseBound = 'true';
+
+                    const videoContainer = video.closest('.resound-video');
+
+                    videoContainer.addEventListener('pointerenter', () => {
+                        track.classList.add('video-hovered');
+                    });
+
+                    videoContainer.addEventListener('pointerleave', () => {
+                        if (!track.querySelector('.resound-video:hover')) {
+                            track.classList.remove('video-hovered');
+                        }
+                    });
+
+                    const updatePlaybackState = () => {
+                        const hasPlayingVideo = [...track.querySelectorAll('.resound-video video')]
+                            .some((item) => !item.paused && !item.ended);
+
+                        track.classList.toggle('video-playing', hasPlayingVideo);
+                    };
+
+                    video.addEventListener('play', updatePlaybackState);
+                    video.addEventListener('pause', updatePlaybackState);
+                    video.addEventListener('ended', updatePlaybackState);
+
+                    if (videoContainer.matches(':hover')) {
+                        track.classList.add('video-hovered');
+                    }
+                    updatePlaybackState();
+                });
+        };
+
+        bindResoundVideos();
+        document.addEventListener('turbo:load', bindResoundVideos);
+    })();
+</script>

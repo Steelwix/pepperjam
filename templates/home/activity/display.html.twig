@@ -1,84 +1,82 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ activity.title }} — Pepperjam{% endblock %}
+
 {% block body %}
-    <section id="projects" class="container py-4">
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>{{ activity.title }} — Projets</h1>
-
-                <a href="{{ path('app_activity_project_create') }}"
-                   class="btn btn-primary edit-display">
-                    ✎ Ajouter un projet
+    <main class="activity-page">
+        <div class="activity-page__shell">
+            <nav class="activity-switcher" aria-label="Activity navigation">
+                <a class="activity-switcher__home" href="{{ path('app_home') }}" aria-label="Back to home">
+                    <span aria-hidden="true">←</span>
+                    <span>Home</span>
                 </a>
-        </div>
 
-        {% if editing is defined and editing is true %}
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre de médias</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for project in activity.projects %}
-                    <tr>
-                        <td>{{ project.id }}</td>
-                        <td>{{ project.media|length }}</td>
-                        <td>
-                            <a href="{{ path('app_activity_project_edit', { id: project.id }) }}"
-                               class="btn btn-primary btn-sm">
-                                ✎ Modifier
-                            </a>
+                <span class="activity-switcher__divider" aria-hidden="true"></span>
 
-                            <form method="post"
-                                  action="{{ path('app_activity_project_delete', { id: project.id }) }}"
-                                  class="d-inline"
-                                  onsubmit="return confirm('Supprimer ce projet ?');">
-                                <input type="hidden" name="_token"
-                                       value="{{ csrf_token('delete-project-' ~ project.id) }}">
-                                <button class="btn btn-danger btn-sm">
-                                    Supprimer
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="3">Aucun projet.</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-        {% else %}
-            <div class="row g-3">
-                {% for project in activity.projects %}
-                    {% set media = project.media|first %}
-
-                    <div class="col-12 col-md-4">
-                        <a href="#"
-                           class="d-block project-card">
-
-                            {% if media %}
-                                <img src="{{ asset(media.path ~ media.filename) }}"
-                                     alt=""
-                                     class="img-fluid w-100">
-                            {% endif %}
-
-                            <div class="p-2">
-                                Projet {{ project.id }}
-                            </div>
+                <div class="activity-switcher__list">
+                    {% for item in activities %}
+                        <a
+                            href="{{ path('app_activity_view', { id: item.id, editing: editing ? 'true' : 'false' }) }}"
+                            class="activity-switcher__link {{ item.id == activity.id ? 'is-active' : '' }}"
+                            {% if item.id == activity.id %}aria-current="page"{% endif %}
+                        >
+                            {{ item.title }}
                         </a>
-                    </div>
-                {% else %}
-                    <div class="col-12">
-                        Aucun projet pour cette activité.
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+                    {% endfor %}
+                </div>
+            </nav>
 
-    </section>
+            <header class="activity-hero">
+                <div>
+                    <p class="activity-hero__eyebrow">Projects <span> / </span> {{ activity.projects|length }}</p>
+                    <h1>{{ activity.title }}</h1>
+                </div>
+
+                {% if editing %}
+                    <a href="{{ path('app_activity_project_create') }}" class="activity-add-project">
+                        <span aria-hidden="true">＋</span> Add project
+                    </a>
+                {% endif %}
+            </header>
+
+            {% if activity.projects|length > 0 %}
+                <section class="project-grid" aria-label="Projects">
+                    {% for project in activity.projects %}
+                        {% set media = project.media|first %}
+                        <article class="project-tile">
+                            <div class="project-tile__visual">
+                                {% if media and media.mimeType starts with 'image/' %}
+                                    <img src="{{ asset(media.path ~ media.filename) }}" alt="{{ activity.title }} project {{ loop.index }}" loading="lazy">
+                                {% elseif media and media.mimeType starts with 'video/' %}
+                                    <video controls playsinline preload="metadata" aria-label="{{ activity.title }} project {{ loop.index }}">
+                                        <source src="{{ asset(media.path ~ media.filename) }}" type="{{ media.mimeType }}">
+                                    </video>
+                                {% else %}
+                                    <div class="project-tile__empty">No preview</div>
+                                {% endif %}
+                                <span class="project-tile__index">{{ '%02d'|format(loop.index) }}</span>
+                            </div>
+
+                            {% if editing %}
+                                <div class="project-tile__actions">
+                                    <a href="{{ path('app_activity_project_edit', { id: project.id }) }}">Edit</a>
+                                    <form method="post" action="{{ path('app_activity_project_delete', { id: project.id }) }}" onsubmit="return confirm('Delete this project?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete-project-' ~ project.id) }}">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </article>
+                    {% endfor %}
+                </section>
+            {% else %}
+                <div class="activity-empty">
+                    <span>Nothing here yet.</span>
+                    {% if editing %}
+                        <a href="{{ path('app_activity_project_create') }}">Add the first project <span aria-hidden="true">↗</span></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </main>
 {% endblock %}

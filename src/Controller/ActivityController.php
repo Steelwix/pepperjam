@@ -7,6 +7,7 @@
     use App\Entity\Project;
     use App\Entity\Section;
     use App\Form\Section\ProjectType;
+    use App\Repository\ActivityRepository;
     use App\Service\MediaService;
     use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,7 @@
 
 
         #[Route('/activity/{id}', name: 'app_activity_view')]
-        public function editSection(Request $request, Activity $activity): Response
+        public function editSection(Request $request, Activity $activity, ActivityRepository $activityRepository): Response
         {
             $projects = $activity->getProjects();
             $editing = $request->query->getBoolean('editing');
@@ -34,6 +35,7 @@
             return $this->render('home/activity/display.html.twig', [
                 'projects' => $projects,
                 'activity' => $activity,
+                'activities' => $activityRepository->findBy([], ['title' => 'ASC']),
                 'editing' => $editing,
             ]);
         }
