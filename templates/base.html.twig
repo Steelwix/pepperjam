@@ -39,11 +39,13 @@
 
         {{ encore_entry_link_tags('app') }}
         {{ encore_entry_script_tags('app') }}
+        <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
     </head>
 
     <body class="{{ editing|default(false) ? 'editing' : '' }}">
     {% include "_partials/_nav.html.twig" %}
     {% include "_partials/_flash.html.twig" %}
     {% block body %}{% endblock %}
+    {% include "_partials/_footer.html.twig" %}
     </body>
 </html>
