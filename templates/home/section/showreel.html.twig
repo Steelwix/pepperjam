@@ -6,9 +6,18 @@
     >
         ✎ Edit
     </a>
+    <a
+        href="{{ path('app_edit_section', {'sectionType': 'head_logo'}) }}"
+        class="head-logo-edit-button edit-display"
+        title="Modifier le logo du header"
+    >
+        ✎ Edit logo
+    </a>
     {% set section = getSectionByName('showreel') %}
     {% if section is not null %}
         {% set media = section.media.first %}
+        {% set headLogoSection = getSectionByName('head_logo') %}
+        {% set logoMedia = headLogoSection ? headLogoSection.media.first : null %}
 
         <video
             id="showreel-video"
@@ -29,15 +38,14 @@
         {% set showreelSettings = section.data ?? {} %}
         {% set logoAutoHide = showreelSettings.logoAutoHide is defined ? showreelSettings.logoAutoHide : true %}
         {% set logoDisplayDuration = showreelSettings.logoDisplayDuration is defined ? showreelSettings.logoDisplayDuration : 3 %}
-        <div
-            class="showreel-logo{{ logoAutoHide ? ' showreel-logo--auto-hide' : '' }}"
-            style="--showreel-logo-display-duration: {{ logoDisplayDuration }}s;"
-            role="img"
-            aria-label="Pepperjam"
-        >
-            <span class="showreel-logo__mark" aria-hidden="true">P!</span>
-            <span class="showreel-logo__wordmark" aria-hidden="true">PEPPERJAM<span>.</span></span>
-        </div>
+        {% if logoMedia %}
+            <img
+                class="showreel-logo{{ logoAutoHide ? ' showreel-logo--auto-hide' : '' }}"
+                style="--showreel-logo-display-duration: {{ logoDisplayDuration }}s;"
+                src="{{ asset(logoMedia.path ~ logoMedia.filename) }}"
+                alt="Pepperjam logo"
+            >
+        {% endif %}
 
         <div class="audio-control">
 

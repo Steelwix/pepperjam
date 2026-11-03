@@ -1,0 +1,35 @@
+<turbo-stream action="replace" target="showreel">
+    <template>
+        <section id="showreel" class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-7">
+                    <div class="card bg-dark border-secondary shadow-lg">
+                        <div class="card-body p-4 p-md-5">
+                            <p class="text-warning small fw-bold text-uppercase mb-2">// Brand asset //</p>
+                            <h2 class="text-white mb-2">Head logo</h2>
+                            <p class="text-secondary mb-4">Upload the image displayed over the showreel.</p>
+
+                            {{ form_start(form, {
+                                action: path('app_edit_section', { sectionType: 'head_logo' }),
+                                attr: { 'data-turbo': 'true' }
+                            }) }}
+                                {{ form_row(form.logo) }}
+
+                                {% if logo %}
+                                    <div class="head-logo-preview mb-4">
+                                        <img src="{{ asset(logo.path ~ logo.filename) }}" alt="Current head logo">
+                                    </div>
+                                {% endif %}
+
+                                <div class="d-flex flex-wrap gap-2 justify-content-end">
+                                    <a href="{{ path('app_home', { editing: true }) }}#showreel" class="btn btn-outline-light">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">Save logo</button>
+                                </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</turbo-stream>

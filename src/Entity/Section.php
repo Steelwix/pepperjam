@@ -15,6 +15,7 @@ class Section
 {
 
     const SHOWREEL_TYPE = 'showreel';
+    const HEAD_LOGO_TYPE = 'head_logo';
     const TECHREEL_TYPE = 'techreel';
     const COLLECTIVE_TYPE = 'collective';
     const TEAM_TYPE = 'team';

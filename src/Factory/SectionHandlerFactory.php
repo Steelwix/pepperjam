@@ -4,6 +4,7 @@
 
     use App\Entity\Section;
     use App\Handler\Section\ActivitySectionHandler;
+    use App\Handler\Section\HeadLogoSectionHandler;
     use App\Handler\Section\CollectiveSectionHandler;
     use App\Handler\Section\ResoundSectionHandler;
     use App\Handler\Section\SectionHandlerInterface;
@@ -16,6 +17,7 @@
     {
         public function __construct(
             private readonly  ShowreelSectionHandler $showreelSectionHandler,
+            private readonly HeadLogoSectionHandler $headLogoSectionHandler,
             private readonly TechreelSectionHandler $techreelSectionHandler,
             private readonly CollectiveSectionHandler $CollectionSectionHandler,
             private readonly TeamSectionHandler $teamSectionHandler,
@@ -29,6 +31,7 @@
         {
             return match ($sectionType) {
                 Section::SHOWREEL_TYPE => $this->showreelSectionHandler,
+                Section::HEAD_LOGO_TYPE => $this->headLogoSectionHandler,
                 Section::TECHREEL_TYPE => $this->techreelSectionHandler,
                 Section::COLLECTIVE_TYPE => $this->CollectionSectionHandler,
                 Section::TEAM_TYPE => $this->teamSectionHandler,

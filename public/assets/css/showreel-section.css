@@ -38,10 +38,10 @@
     z-index: 3;
     top: 50%;
     left: 50%;
-    display: flex;
-    align-items: center;
-    gap: clamp(12px, 2vw, 24px);
-    color: #fff;
+    display: block;
+    width: min(38vw, 420px);
+    max-height: 28vh;
+    object-fit: contain;
     pointer-events: none;
     transform: translate(-50%, -50%);
     filter: drop-shadow(0 5px 24px rgba(0, 0, 0, .55));
@@ -51,32 +51,6 @@
     to { opacity: 0; visibility: hidden; }
 }
 
-.showreel-logo__mark {
-    display: grid;
-    width: clamp(54px, 8vw, 100px);
-    height: clamp(54px, 8vw, 100px);
-    place-items: center;
-    color: #080808;
-    background: #ffe600;
-    border: 3px solid #fff;
-    box-shadow: 6px 6px 0 #ff1744;
-    font-size: clamp(26px, 4vw, 50px);
-    font-style: italic;
-    font-weight: 950;
-    letter-spacing: -.12em;
-    transform: rotate(-7deg);
-}
-
-.showreel-logo__wordmark {
-    color: #fff;
-    font-size: clamp(28px, 6vw, 76px);
-    font-weight: 950;
-    line-height: .9;
-    letter-spacing: -.075em;
-    white-space: nowrap;
-}
-
-.showreel-logo__wordmark span { color: #ff1744; }
 .showreel-logo--auto-hide {
     animation: showreel-logo-disappear .7s ease var(--showreel-logo-display-duration, 3s) forwards;
 }
@@ -206,6 +180,10 @@
         min-height: 85vh;
     }
 
+    .showreel-logo { width: min(58vw, 280px); max-height: 22vh; }
+    .head-logo-edit-button { left: 24px; top: 74px; }
+
+
     .showreel-hero-scroll {
         right: 24px;
         bottom: 24px;
@@ -224,8 +202,39 @@
         display: none;
     }
 
-    .showreel-logo { gap: 12px; }
-    .showreel-logo__mark { border-width: 2px; box-shadow: 4px 4px 0 #ff1744; }
+}
+
+.head-logo-edit-button {
+    position: absolute;
+    z-index: 4;
+    top: 24px;
+    left: 5vw;
+    padding: 8px 12px;
+    color: #fff;
+    background: rgba(0, 0, 0, .45);
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.head-logo-preview {
+    display: grid;
+    min-height: 180px;
+    padding: 24px;
+    place-items: center;
+    background: #080808;
+    border: 1px solid rgba(255,255,255,.18);
+}
+
+.head-logo-preview img {
+    display: block;
+    max-width: min(100%, 420px);
+    max-height: 180px;
+    object-fit: contain;
 }
 
 .video-edit-button {
@@ -250,4 +259,11 @@
 .video-edit-button:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+    .head-logo-edit-button {
+        top: 74px;
+        left: 24px;
+    }
 }
