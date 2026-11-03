@@ -1,0 +1,49 @@
+{% set softwareSection = getSectionByName('softwares') %}
+{% set softwares = getSoftwares() %}
+{% set shouldScroll = softwares|length > 3 %}
+
+{% if editing|default(false) or (softwareSection is not null and softwares is not empty) %}
+<section class="software-section cp-block" id="softwares">
+    <header class="software-section__header">
+        <p class="software-section__eyebrow">// OUR TOOLKIT //</p>
+{#        <h2>Made with <span>good stuff.</span></h2>#}
+{#        <p class="software-section__intro">A few of the tools behind the sounds.</p>#}
+    </header>
+
+    <a href="{{ path('app_edit_section', { sectionType: 'softwares' }) }}"
+       class="software-section__add edit-display">＋ Add software</a>
+
+    {% if softwares is not empty %}
+        <div class="software-marquee">
+            <div class="software-track{% if shouldScroll %} is-scrolling{% endif %}">
+                {% for group in 1..(shouldScroll ? 2 : 1) %}
+                    <div class="software-group"{% if group == 2 %} aria-hidden="true"{% endif %}>
+                        {% for software in softwares %}
+                            {% set media = software.media.first %}
+                            <article class="software-card">
+                                {% if group == 1 %}
+                                    <div class="software-card__actions edit-display">
+                                        <a href="{{ path('app_edit_section', { sectionType: 'softwares', id: software.id }) }}" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="{{ path('app_remove_software', { id: software.id }) }}" class="btn btn-danger btn-sm" data-turbo-confirm="Delete this software?">Delete</a>
+                                    </div>
+                                {% endif %}
+                                <div class="software-card__image">
+                                    {% if media %}
+                                        <img src="{{ asset(media.path ~ media.filename) }}" alt="{{ group == 1 ? software.name : '' }}" loading="lazy">
+                                    {% else %}
+                                        <span class="software-card__placeholder" aria-hidden="true">{{ software.name|slice(0, 1)|upper }}</span>
+                                    {% endif %}
+                                </div>
+                                <h3>{{ software.name }}</h3>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% elseif editing|default(false) %}
+        <p class="software-section__empty">Add the first software to get started.</p>
+    {% endif %}
+</section>
+
+{% endif %}

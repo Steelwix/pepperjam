@@ -1,0 +1,22 @@
+<turbo-stream action="replace" target="softwares">
+    <template>
+        <section id="softwares" class="software-section software-section--form">
+            <div class="software-form">
+                <p class="software-section__eyebrow">// SOFTWARE //</p>
+                <h2>{{ software.id ? 'Edit software' : 'Add software' }}</h2>
+                {{ form_start(form, { action: path('app_edit_section', { sectionType: spot, id: software.id|default(null) }), attr: { 'data-turbo': 'true' } }) }}
+                    {{ form_row(form.name) }}
+                    {% set currentMedia = software.media.first %}
+                    {% if currentMedia %}
+                        <div class="software-form__preview">
+                            <img src="{{ asset(currentMedia.path ~ currentMedia.filename) }}" alt="Current image for {{ software.name }}">
+                        </div>
+                    {% endif %}
+                    {{ form_row(form.media) }}
+                    <button type="submit" class="btn btn-primary">Save software</button>
+                    <a href="{{ path('app_home', { editing: true }) }}#softwares" class="btn btn-outline-light">Cancel</a>
+                {{ form_end(form) }}
+            </div>
+        </section>
+    </template>
+</turbo-stream>

@@ -6,6 +6,7 @@
     use App\Entity\Media;
     use App\Entity\Project;
     use App\Entity\Section;
+    use App\Entity\Software;
     use App\Repository\MediaRepository;
     use Doctrine\ORM\EntityManagerInterface;
     use Random\RandomException;
@@ -48,6 +49,24 @@
             $project->addMedium($media);
 
             return $media;
+        }
+
+        public function createForSoftware(UploadedFile $file, Software $software): Media
+        {
+            $media = $this->store($file);
+            $software->addMedium($media);
+
+            return $media;
+        }
+
+        public function replaceForSoftware(UploadedFile $file, Software $software): Media
+        {
+            foreach ($software->getMedia()->toArray() as $existingMedia) {
+                $software->removeMedium($existingMedia);
+                $this->remove($existingMedia);
+            }
+
+            return $this->createForSoftware($file, $software);
         }
 
         public function replaceForProject(UploadedFile $file, Project $project): Media

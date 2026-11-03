@@ -1,0 +1,60 @@
+.software-section {
+    --software-ink: #080808;
+    --software-red: #ff1744;
+    --software-yellow: #ffe600;
+    position: relative;
+    width: min(1400px, 100%);
+    margin: clamp(56px, 9vw, 120px) auto;
+    padding: clamp(28px, 5vw, 64px) 0;
+    overflow: hidden;
+    color: #fff;
+    background: #090909;
+    border-block: 2px solid var(--software-yellow);
+}
+
+.software-section::before {
+    position: absolute;
+    top: -70px;
+    right: 5%;
+    width: 190px;
+    height: 190px;
+    content: "";
+    pointer-events: none;
+    background-image: radial-gradient(var(--software-red) 2px, transparent 2px);
+    background-size: 17px 17px;
+    opacity: .35;
+    transform: rotate(-9deg);
+}
+
+.software-section__header,
+.software-section__add,
+.software-section__empty { position: relative; z-index: 1; margin-inline: clamp(22px, 6vw, 84px); }
+.software-section__header { margin-bottom: 34px; }
+.software-section__eyebrow { margin: 0 0 12px; color: var(--software-yellow); font-size: 11px; font-weight: 800; letter-spacing: .2em; }
+.software-section__header h2,
+.software-form h2 { margin: 0; color: #fff; font-size: clamp(34px, 6vw, 68px); font-weight: 950; line-height: .95; letter-spacing: -.06em; text-transform: uppercase; }
+.software-section__header h2 span { color: var(--software-red); }
+.software-section__intro { margin: 14px 0 0; color: rgba(255,255,255,.65); font-size: 14px; }
+.software-section__add { display: inline-block; margin-bottom: 14px; color: var(--software-ink); background: var(--software-yellow); padding: 9px 14px; font-size: 12px; font-weight: 800; text-decoration: none; box-shadow: 3px 3px 0 var(--software-red); }
+.software-section__empty { color: rgba(255,255,255,.7); }
+.software-marquee { width: 100%; overflow: hidden; padding: 28px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.software-track { display: flex; width: max-content; }
+.software-track.is-scrolling { animation: software-scroll 34s linear infinite !important; }
+.software-group { display: flex; flex: 0 0 auto; align-items: stretch; gap: 22px; padding-right: 22px; }
+.software-card { position: relative; display: flex; width: clamp(190px, 22vw, 260px); flex: 0 0 clamp(190px, 22vw, 260px); flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 230px; padding: 28px 20px 22px; overflow: hidden; background: #111; border: 1px solid rgba(255,255,255,.13); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.software-card:hover { transform: translateY(-5px); border-color: var(--software-red); box-shadow: 5px 5px 0 var(--software-red); }
+.software-card__image { display: grid; width: 128px; height: 128px; place-items: center; overflow: hidden; background: #fff; border-radius: 50%; }
+.software-card__image img { display: block; width: 100%; height: 100%; object-fit: contain; padding: 16px; }
+.software-card__placeholder { color: var(--software-red); font-size: 64px; font-weight: 900; }
+.software-card h3 { margin: 0; color: #fff; font-size: 16px; font-weight: 850; text-align: center; }
+.software-card__actions { position: absolute; z-index: 2; top: 8px; right: 8px; display: flex; gap: 5px; }
+.software-section--form { display: grid; min-height: 65vh; place-items: center; padding-inline: 20px; }
+.software-form { position: relative; z-index: 1; width: min(560px, 100%); padding: clamp(22px, 5vw, 42px); background: #121212; border: 2px solid #fff; box-shadow: 7px 7px 0 var(--software-red); }
+.software-form h2 { margin-bottom: 28px; font-size: clamp(30px, 5vw, 48px); }
+.software-form__preview { margin: 18px 0; }
+.software-form__preview img { display: block; width: 150px; height: 150px; padding: 12px; object-fit: contain; background: #fff; border-radius: 50%; }
+@keyframes software-scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+}
+@media (max-width: 600px) { .software-section { margin-inline: 0; } .software-card { width: 190px; flex-basis: 190px; min-height: 205px; } .software-card__image { width: 108px; height: 108px; } }

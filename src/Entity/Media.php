@@ -38,6 +38,9 @@ class Media
     private ?Activity $activity = null;
 
     #[ORM\ManyToOne(inversedBy: 'media')]
+    private ?Software $software = null;
+
+    #[ORM\ManyToOne(inversedBy: 'media')]
     private ?Project $project = null;
 
     public function getId(): ?int
@@ -137,6 +140,18 @@ class Media
     public function setActivity(?Activity $activity): static
     {
         $this->activity = $activity;
+
+        return $this;
+    }
+
+    public function getSoftware(): ?Software
+    {
+        return $this->software;
+    }
+
+    public function setSoftware(?Software $software): static
+    {
+        $this->software = $software;
 
         return $this;
     }

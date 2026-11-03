@@ -6,6 +6,7 @@ namespace App\Twig;
     use App\Entity\Member;
     use App\Entity\Resound;
     use App\Entity\Section;
+    use App\Entity\Software;
     use Doctrine\ORM\EntityManagerInterface;
     use Twig\Extension\AbstractExtension;
     use Twig\TwigFunction;
@@ -22,6 +23,7 @@ namespace App\Twig;
             return [
                 new TwigFunction('getSectionByName', [$this, 'getSectionByName']),
                 new TwigFunction('getTeamMembers', [$this, 'getTeamMembers']),
+                new TwigFunction('getSoftwares', [$this, 'getSoftwares']),
                 new TwigFunction('getResounds', [$this, 'getResounds']),
                 new TwigFunction('getActivities', [$this, 'getActivities']),
             ];
@@ -38,6 +40,11 @@ namespace App\Twig;
         public function getTeamMembers(): array
         {
             return $this->em->getRepository(Member::class)->findBy([]);
+        }
+
+        public function getSoftwares(): array
+        {
+            return $this->em->getRepository(Software::class)->findBy([], ['id' => 'ASC']);
         }
 
         public function getResounds(): array

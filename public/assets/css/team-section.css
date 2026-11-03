@@ -2,266 +2,52 @@
     position: relative;
     width: 100%;
     padding: 6rem 0;
-
+    overflow: hidden;
     background: #000;
     color: #fff;
-
-    overflow: hidden;
 }
 
-.team-header {
-    width: min(1400px, 95%);
-    margin: 0 auto 3rem;
-}
+.team-header { width: min(1400px, 95%); margin: 0 auto 3rem; }
+.team-marquee { position: relative; width: 100%; overflow: hidden; padding: 28px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.team-track { display: flex; width: max-content; }
+.team-track.scrolling { animation: team-scroll 35s linear infinite; }
+.team-track.scrolling:hover { animation-play-state: paused; }
+.team-group { display: flex; flex: 0 0 auto; align-items: stretch; gap: 30px; padding-right: 30px; }
+.team-card { position: relative; flex: 0 0 320px; width: 320px; overflow: hidden; background: rgba(10,10,10,.8); border: 1px solid rgba(var(--color-primary),.25); transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.team-card:hover { border-color: rgb(var(--color-primary)); box-shadow: 0 0 20px rgba(var(--color-primary),.3); transform: translateY(-5px); }
+.team-card-image { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; }
+.team-card-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.team-card:hover .team-card-image img { transform: scale(1.04); }
+.team-card-info { padding: 18px; }
+.team-card-role { display: block; margin-bottom: 7px; color: var(--team-yellow); font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.team-card-info h3 { margin: 0 0 .75rem; color: #fff; font-size: 1.5rem; line-height: 1.1; }
+.team-bio-open { margin-top: .9rem; padding: .45rem .7rem; color: #fff; background: transparent; border: 2px solid #fff; font-size: .7rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; }
+.team-bio-open:hover, .team-bio-open:focus-visible { color: #080808; background: #ffe600; box-shadow: 3px 3px 0 #ff1744; }
+@keyframes team-scroll { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
 
-.team-kicker {
-    display: block;
-
-    margin-bottom: .75rem;
-
-    color: rgb(var(--color-primary));
-    font-size: .8rem;
-    font-weight: 700;
-    letter-spacing: .3rem;
-}
-
-.team-header h2 {
-    margin: 0;
-
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 900;
-    text-transform: uppercase;
-}
-
-
-/* =========================
-   CAROUSEL
-========================= */
-
-.team-carousel {
-    width: 100%;
-    overflow: hidden;
-}
-
-.team-track {
-    display: flex;
-    width: max-content;
-}
-
-
-/* =========================
-   MEMBER
-========================= */
-
-.team-member {
-    display: grid;
-    grid-template-columns: minmax(300px, 500px) minmax(300px, 500px);
-
-    width: min(1000px, 90vw);
-
-    margin: 0 auto;
-
-    background: #0f0f0f;
-
-    border: 1px solid rgba(var(--color-primary), .3);
-}
-
-
-/* =========================
-   IMAGE
-========================= */
-
-.team-member-image {
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-
-    background: #111;
-}
-
-.team-member-image img {
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-}
-
-
-/* =========================
-   INFO
-========================= */
-
-.team-member-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    padding: clamp(2rem, 5vw, 4rem);
-}
-
-.team-member-role {
-    margin-bottom: .75rem;
-
-    color: rgb(var(--color-primary));
-
-    font-size: .75rem;
-    font-weight: 700;
-    letter-spacing: .2rem;
-    text-transform: uppercase;
-}
-
-.team-member-info h3 {
-    margin: 0 0 1rem;
-
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 900;
-    text-transform: uppercase;
-}
-
-.team-member-info p {
-    max-width: 450px;
-
-    margin: 0;
-
-    color: rgba(255,255,255,.65);
-    line-height: 1.7;
-}
-
-
-@media (max-width: 767px) {
-
-    .team-member {
-        grid-template-columns: 1fr;
-    }
-
-    .team-member-image {
-        aspect-ratio: 4 / 3;
-    }
-
-}
 
 /* Member bio dialog */
-.team-bio-open {
-    margin-top: .9rem;
-    padding: .45rem .7rem;
-    border: 2px solid #fff;
-    color: #fff;
-    background: transparent;
-    font-size: .7rem;
-    font-weight: 800;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    cursor: pointer;
-}
+.team-bio-modal { width: min(760px, calc(100vw - 2rem)); max-width: none; max-height: calc(100vh - 2rem); padding: 0; overflow: auto; color: #fff; background: #101010; border: 3px solid #fff; box-shadow: 7px 7px 0 #ff1744; }
+.team-bio-modal::backdrop { background: rgba(0,0,0,.82); backdrop-filter: blur(4px); }
+.team-bio-modal__layout { display: grid; grid-template-columns: minmax(180px,.75fr) 1.25fr; min-height: 340px; }
+.team-bio-modal__image { min-height: 100%; background: #222; }
+.team-bio-modal__image img { display: block; width: 100%; height: 100%; min-height: 340px; object-fit: cover; }
+.team-bio-modal__body { position: relative; align-self: center; padding: clamp(1.5rem,4vw,2.5rem); }
+.team-bio-modal__close { position: absolute; top: .75rem; right: .75rem; display: grid; width: 2.25rem; height: 2.25rem; padding: 0; color: #fff; background: #ff1744; border: 2px solid #fff; font-size: 1.4rem; line-height: 1; place-items: center; cursor: pointer; }
+.team-bio-modal__role { margin: 0 0 .5rem; color: #ffe600; font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.team-bio-modal h2 { margin: 0 2.5rem 1rem 0; color: #fff; font-size: clamp(1.7rem,4vw,2.5rem); font-weight: 900; line-height: 1; text-transform: uppercase; }
+.team-bio-modal__text { color: rgba(255,255,255,.82); font-size: .95rem; line-height: 1.65; overflow-wrap: anywhere; }
+.team-bio-modal__text > :last-child { margin-bottom: 0; }
 
-.team-bio-open:hover,
-.team-bio-open:focus-visible {
-    color: #080808;
-    background: #ffe600;
-    box-shadow: 3px 3px 0 #ff1744;
+@media (max-width: 768px) {
+    .team-section { width: 100%; padding: 1.5rem 0; }
+    .team-header { padding: 0 1.5rem; }
+    .team-marquee { padding: 20px 0; }
+    .team-card { flex-basis: 260px; width: 260px; }
+    .team-group { gap: 20px; padding-right: 20px; }
 }
-
-.team-bio-modal {
-    width: min(760px, calc(100vw - 2rem));
-    max-width: none;
-    max-height: calc(100vh - 2rem);
-    padding: 0;
-    overflow: auto;
-    border: 3px solid #fff;
-    color: #fff;
-    background: #101010;
-    box-shadow: 7px 7px 0 #ff1744;
-}
-
-.team-bio-modal::backdrop {
-    background: rgba(0, 0, 0, .82);
-    backdrop-filter: blur(4px);
-}
-
-.team-bio-modal__layout {
-    display: grid;
-    grid-template-columns: minmax(180px, .75fr) 1.25fr;
-    min-height: 340px;
-}
-
-.team-bio-modal__image {
-    min-height: 100%;
-    background: #222;
-}
-
-.team-bio-modal__image img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    min-height: 340px;
-    object-fit: cover;
-}
-
-.team-bio-modal__body {
-    position: relative;
-    align-self: center;
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-}
-
-.team-bio-modal__close {
-    position: absolute;
-    top: .75rem;
-    right: .75rem;
-    display: grid;
-    width: 2.25rem;
-    height: 2.25rem;
-    padding: 0;
-    border: 2px solid #fff;
-    color: #fff;
-    background: #ff1744;
-    font-size: 1.4rem;
-    line-height: 1;
-    place-items: center;
-    cursor: pointer;
-}
-
-.team-bio-modal__role {
-    margin: 0 0 .5rem;
-    color: #ffe600;
-    font-size: .7rem;
-    font-weight: 800;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-}
-
-.team-bio-modal h2 {
-    margin: 0 2.5rem 1rem 0;
-    color: #fff;
-    font-size: clamp(1.7rem, 4vw, 2.5rem);
-    font-weight: 900;
-    line-height: 1;
-    text-transform: uppercase;
-}
-
-.team-bio-modal__text {
-    color: rgba(255, 255, 255, .82);
-    font-size: .95rem;
-    line-height: 1.65;
-    overflow-wrap: anywhere;
-}
-
-.team-bio-modal__text > :last-child {
-    margin-bottom: 0;
-}
-
 @media (max-width: 560px) {
-    .team-bio-modal__layout {
-        grid-template-columns: 1fr;
-    }
-
-    .team-bio-modal__image {
-        max-height: 40vh;
-    }
-
-    .team-bio-modal__image img {
-        min-height: 0;
-        max-height: 40vh;
-        object-position: center 35%;
-    }
+    .team-bio-modal__layout { grid-template-columns: 1fr; }
+    .team-bio-modal__image { max-height: 40vh; }
+    .team-bio-modal__image img { min-height: 0; max-height: 40vh; object-position: center 35%; }
 }

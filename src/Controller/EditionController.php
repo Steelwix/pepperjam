@@ -7,6 +7,7 @@
     use App\Entity\Member;
     use App\Entity\Resound;
     use App\Entity\Section;
+    use App\Entity\Software;
     use App\Factory\SectionHandlerFactory;
     use App\Service\MediaService;
     use App\Service\SectionService;
@@ -61,6 +62,31 @@
                     'editing' => true
                 ])
             );
+        }
+
+
+        #[Route('/edit/remove/software/{id}', name: 'app_remove_software')]
+        #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour intéragir avec cette route')]
+        public function removeSoftware(Request $request, int $id): Response
+        {
+            $software = $this->em->getRepository(Software::class)->find($id);
+            if ($software === null) {
+                throw $this->createNotFoundException();
+            }
+            foreach ($software->getMedia()->toArray() as $media) {
+                $software->removeMedium($media);
+                $this->mediaService->remove($media);
+            }
+            $this->em->remove($software);
+            $this->em->flush();
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+            $section = $this->em->getRepository(Section::class)->findOneBy(['type' => Section::SOFTWARES_TYPE]);
+            return new Response($this->renderView('home/section/turbo-load/softwares.html.twig', [
+                'section' => $section,
+                'spot' => Section::SOFTWARES_TYPE,
+                'editing' => true,
+            ]));
         }
 
 

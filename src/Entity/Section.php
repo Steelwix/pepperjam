@@ -18,6 +18,7 @@ class Section
     const TECHREEL_TYPE = 'techreel';
     const COLLECTIVE_TYPE = 'collective';
     const TEAM_TYPE = 'team';
+    const SOFTWARES_TYPE = 'softwares';
     const RESOUND_TYPE = 'resound';
     const ACTIVITIES_TYPE = 'activities';
 
