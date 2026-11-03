@@ -4,7 +4,6 @@
 
     use App\Entity\Media;
     use App\Entity\Section;
-    use App\Form\MediaType;
     use App\Form\Section\SectionShowreelType;
     use App\Service\MediaService;
     use Doctrine\ORM\EntityManagerInterface;
@@ -57,17 +56,31 @@
                 $this->em->persist($section);
             }
 
-            $form = $this->formFactory->create(MediaType::class);
+            $settings = $section->getData() ?? [];
+            $form = $this->formFactory->create(SectionShowreelType::class, $section, [
+                'media_required' => $section->getMedia()->isEmpty(),
+            ]);
+            $form->get('logoAutoHide')->setData($settings['logoAutoHide'] ?? true);
+            $form->get('logoDisplayDuration')->setData($settings['logoDisplayDuration'] ?? 3);
             $form->handleRequest($request);
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
             if ($form->isSubmitted() && $form->isValid()) {
 
 
-                $this->mediaService->create(
-                    $form->get('media')->getData(),
-                    $section, $section->getMedia()->first()?: null
-                );
+                $settings = $section->getData() ?? [];
+                $settings['logoAutoHide'] = (bool) $form->get('logoAutoHide')->getData();
+                $settings['logoDisplayDuration'] = (float) $form->get('logoDisplayDuration')->getData();
+                $section->setData($settings);
+
+                $upload = $form->get('media')->get('media')->getData();
+                if ($upload !== null) {
+                    $this->mediaService->create(
+                        $upload,
+                        $section,
+                        $section->getMedia()->first() ?: null
+                    );
+                }
                 return new Response(
                     $this->twig->render('home/section/turbo-load/showreel.html.twig', [
                         'media' => $section->getMedia()->first(),

@@ -26,6 +26,19 @@
             Votre navigateur ne supporte pas la lecture vidéo.
         </video>
 
+        {% set showreelSettings = section.data ?? {} %}
+        {% set logoAutoHide = showreelSettings.logoAutoHide is defined ? showreelSettings.logoAutoHide : true %}
+        {% set logoDisplayDuration = showreelSettings.logoDisplayDuration is defined ? showreelSettings.logoDisplayDuration : 3 %}
+        <div
+            class="showreel-logo{{ logoAutoHide ? ' showreel-logo--auto-hide' : '' }}"
+            style="--showreel-logo-display-duration: {{ logoDisplayDuration }}s;"
+            role="img"
+            aria-label="Pepperjam"
+        >
+            <span class="showreel-logo__mark" aria-hidden="true">P!</span>
+            <span class="showreel-logo__wordmark" aria-hidden="true">PEPPERJAM<span>.</span></span>
+        </div>
+
         <div class="audio-control">
 
             <button
