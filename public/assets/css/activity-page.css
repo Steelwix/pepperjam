@@ -39,8 +39,8 @@
 
 .activity-switcher__home {
     gap: .45rem;
-    border-color: #ff1744;
-    background: #ff1744;
+    border-color: var(--color-pop-red);
+    background: var(--color-pop-red);
 }
 
 .activity-switcher__home span:first-child {
@@ -70,15 +70,15 @@
 .activity-switcher__link:hover,
 .activity-switcher__home:hover {
     color: #080808;
-    background: #ffe600;
+    background: var(--color-pop-yellow);
     transform: translate(-2px, -2px);
-    box-shadow: 3px 3px 0 #ff1744;
+    box-shadow: 3px 3px 0 var(--color-pop-red);
 }
 
 .activity-switcher__link.is-active {
     color: #080808;
-    background: #ffe600;
-    box-shadow: 3px 3px 0 #ff1744;
+    background: var(--color-pop-yellow);
+    box-shadow: 3px 3px 0 var(--color-pop-red);
 }
 
 .activity-hero {
@@ -96,7 +96,7 @@
     bottom: .25rem;
     width: 5rem;
     height: 5rem;
-    background-image: radial-gradient(#ff1744 1.5px, transparent 1.5px);
+    background-image: radial-gradient(var(--color-pop-red) 1.5px, transparent 1.5px);
     background-size: 8px 8px;
     content: "";
     opacity: .85;
@@ -105,7 +105,7 @@
 
 .activity-hero__eyebrow {
     margin: 0 0 .6rem;
-    color: #ffe600;
+    color: var(--color-pop-yellow);
     font-size: .72rem;
     font-weight: 900;
     letter-spacing: .12em;
@@ -114,7 +114,7 @@
 
 .activity-hero__eyebrow span {
     padding: 0 .25rem;
-    color: #ff1744;
+    color: var(--color-pop-red);
 }
 
 .activity-hero h1 {
@@ -125,7 +125,7 @@
     letter-spacing: -.055em;
     line-height: .95;
     text-transform: uppercase;
-    text-shadow: 4px 4px 0 #ff1744;
+    text-shadow: 4px 4px 0 var(--color-pop-red);
 }
 
 .activity-add-project {
@@ -137,8 +137,8 @@
     padding: .65rem .85rem;
     border: 2px solid #080808;
     color: #080808;
-    background: #ffe600;
-    box-shadow: 3px 3px 0 #ff1744;
+    background: var(--color-pop-yellow);
+    box-shadow: 3px 3px 0 var(--color-pop-red);
     font-size: .75rem;
     font-weight: 900;
     text-decoration: none;
@@ -149,7 +149,7 @@
 .activity-add-project:hover {
     color: #080808;
     transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 #ff1744;
+    box-shadow: 1px 1px 0 var(--color-pop-red);
 }
 
 .project-grid {
@@ -170,7 +170,7 @@
     overflow: hidden;
     border: 3px solid #fff;
     background: #181818;
-    box-shadow: 5px 5px 0 #ff1744;
+    box-shadow: 5px 5px 0 var(--color-pop-red);
 }
 
 .project-tile__visual img,
@@ -182,7 +182,7 @@
 }
 
 .project-tile__empty {
-    color: #ffe600;
+    color: var(--color-pop-yellow);
     font-size: .75rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -198,7 +198,7 @@
     border: 2px solid #080808;
     border-radius: 50%;
     color: #080808;
-    background: #ffe600;
+    background: var(--color-pop-yellow);
     font-size: .7rem;
     font-weight: 900;
     place-items: center;
@@ -226,7 +226,7 @@
 .project-tile__actions a:hover,
 .project-tile__actions button:hover {
     color: #080808;
-    background: #ffe600;
+    background: var(--color-pop-yellow);
 }
 
 .activity-empty {
@@ -237,7 +237,7 @@
     justify-content: center;
     gap: .65rem;
     border: 3px solid #fff;
-    box-shadow: 5px 5px 0 #ff1744;
+    box-shadow: 5px 5px 0 var(--color-pop-red);
     color: #fff;
     font-size: .85rem;
     font-weight: 800;
@@ -245,7 +245,7 @@
 }
 
 .activity-empty a {
-    color: #ffe600;
+    color: var(--color-pop-yellow);
     font-size: .75rem;
     text-decoration: none;
 }

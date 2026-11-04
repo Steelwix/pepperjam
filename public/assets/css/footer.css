@@ -16,7 +16,7 @@
     height: 210px;
     content: "";
     pointer-events: none;
-    background-image: radial-gradient(#ff1744 2px, transparent 2px);
+    background-image: radial-gradient(var(--color-pop-red) 2px, transparent 2px);
     background-size: 18px 18px;
     opacity: 0.32;
     transform: rotate(-12deg);
@@ -50,9 +50,9 @@
     height: 42px;
     place-items: center;
     color: #080808;
-    background: #ffe600;
+    background: var(--color-pop-yellow);
     border: 2px solid #fff;
-    box-shadow: 3px 3px 0 #ff1744;
+    box-shadow: 3px 3px 0 var(--color-pop-red);
     font-size: 20px;
     font-style: italic;
     letter-spacing: -0.1em;
@@ -68,7 +68,7 @@
     object-fit: contain;
 }
 
-.site-footer__dot { color: #ff1744; }
+.site-footer__dot { color: var(--color-pop-red); }
 
 .site-footer__tagline {
     margin: 0;
@@ -79,7 +79,7 @@
     text-transform: uppercase;
 }
 
-.site-footer__tagline span { color: #ff1744; }
+.site-footer__tagline span { color: var(--color-pop-red); }
 
 .site-footer__nav,
 .site-footer__contact {
@@ -99,7 +99,7 @@
 }
 
 .site-footer__nav a:hover,
-.site-footer__back-top:hover { color: #ffe600; transform: translateX(3px); }
+.site-footer__back-top:hover { color: var(--color-pop-yellow); transform: translateX(3px); }
 
 .site-footer__eyebrow,
 .site-footer__placeholder {
@@ -114,12 +114,12 @@
     color: #fff;
     font-size: clamp(15px, 1.5vw, 19px);
     font-weight: 800;
-    text-decoration-color: #ff1744;
+    text-decoration-color: var(--color-pop-red);
     text-decoration-thickness: 2px;
     text-underline-offset: 5px;
 }
 
-.site-footer__email span { color: #ffe600; }
+.site-footer__email span { color: var(--color-pop-yellow); }
 .site-footer__placeholder { margin-top: 4px; letter-spacing: 0.06em; }
 
 .site-footer__bottom {
@@ -139,7 +139,7 @@
 }
 
 .site-footer__back-top { color: #fff; white-space: nowrap; }
-.site-footer__back-top span { color: #ff1744; font-size: 15px; }
+.site-footer__back-top span { color: var(--color-pop-red); font-size: 15px; }
 
 @media (max-width: 800px) {
     .site-footer__top { grid-template-columns: 1fr 1fr; gap: 34px 24px; }

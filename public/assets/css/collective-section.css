@@ -88,7 +88,7 @@
 }
 
 .collective-text h1 span {
-    color: #ff1744;
+    color: var(--color-pop-red);
 }
 
 .collective-text p {
