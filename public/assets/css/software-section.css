@@ -38,6 +38,8 @@
 .software-marquee { width: 100%; overflow: hidden; padding: 28px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
 .software-track { display: flex; width: max-content; }
 .software-track.is-scrolling { animation: software-scroll 34s linear infinite !important; }
+.software-track.is-scrolling.is-manually-accelerated { animation-play-state: running !important; }
+.software-track.is-manually-moving { animation-play-state: paused !important; }
 .software-group { display: flex; flex: 0 0 auto; align-items: stretch; gap: 22px; padding-right: 22px; }
 .software-card { position: relative; display: flex; width: clamp(190px, 22vw, 260px); flex: 0 0 clamp(190px, 22vw, 260px); flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 230px; padding: 28px 20px 22px; overflow: hidden; background: #111; border: 1px solid rgba(255,255,255,.13); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
 .software-card:hover { transform: translateY(-5px); border-color: var(--color-pop-red); box-shadow: 5px 5px 0 var(--color-pop-red); }

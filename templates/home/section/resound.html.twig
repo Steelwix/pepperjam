@@ -3,14 +3,14 @@
 
 <section class="resound-section cp-block" id="resound">
 
+    {% set section = getSectionByName('resound') %}
+    {% set resounds = getResounds() %}
+
     <header class="resound-header">
         <p class="resound-eyebrow">// RESOUND //</p>
 {#        <h2>Hear it <span>different.</span></h2>#}
 {#        <p class="resound-intro">Familiar worlds, remixed with sound.</p>#}
     </header>
-
-    {% set section = getSectionByName('resound') %}
-    {% set resounds = getResounds() %}
 
     {# ADD RESOUND #}
     <a
@@ -22,6 +22,15 @@
     </a>
 
     {% if section is not null and resounds|length > 0 and not editing %}
+
+        {% if resounds|length > 2 %}
+            <div class="carousel-control-row">
+                <div class="carousel-controls" aria-label="Resound carousel controls">
+                    <button type="button" data-carousel-speed="-1" aria-label="Move Resound carousel left">←</button>
+                    <button type="button" data-carousel-speed="1" aria-label="Move Resound carousel right">→</button>
+                </div>
+            </div>
+        {% endif %}
 
         <div class="resound-marquee">
 

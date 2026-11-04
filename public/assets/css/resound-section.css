@@ -34,6 +34,8 @@
 .resound-track.scrolling { animation: resound-scroll 40s linear infinite !important; }
 .resound-track.scrolling.video-hovered,
 .resound-track.scrolling.video-playing { animation-play-state: paused !important; }
+.resound-track.scrolling.is-manually-accelerated { animation-play-state: running !important; }
+.resound-track.is-manually-moving { animation-play-state: paused !important; }
 .resound-group { display: flex; flex: 0 0 auto; align-items: stretch; gap: 22px; padding-right: 22px; }
 .resound-card { position: relative; flex: 0 0 380px; width: 380px; min-width: 0; overflow: hidden; background: #111; border: 1px solid rgba(255,255,255,.14); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
 .resound-card:hover { z-index: 1; transform: translateY(-5px); border-color: var(--color-pop-red); box-shadow: 5px 5px 0 var(--color-pop-red); }
