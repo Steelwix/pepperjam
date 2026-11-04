@@ -9,6 +9,7 @@
 parameters:
     upload_directory: '%kernel.project_dir%/public/upload'
     allow_register: '%env(bool:ALLOW_REGISTER)%'
+    contact_mail: '%env(CONTACT_MAIL)%'
 
 services:
     # default configuration for services in *this* file

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact · Pepperjam{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/contact-page.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="contact-page">
+        <section class="contact-card" aria-labelledby="contact-title">
+            <div class="contact-intro">
+                <span class="contact-kicker">LET’S MAKE SOME NOISE <span aria-hidden="true">✳</span></span>
+                <h1 id="contact-title">Got a project<br>in <em>mind?</em></h1>
+                <p>Tell us what you’re working on. We’ll get back to you soon.</p>
+{#                <a class="contact-email" href="mailto:contact@pepperjam.com">contact@pepperjam.com <span aria-hidden="true">↗</span></a>#}
+            </div>
+
+            <div class="contact-form-wrap">
+                {% for label, messages in app.flashes(['success', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="contact-alert contact-alert--{{ label }}" role="status" aria-live="polite">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {{ form_start(contactForm, { attr: { class: 'contact-form' } }) }}
+                    <div class="contact-fields">
+                        {% for field in [contactForm.name, contactForm.email] %}
+                            <div class="contact-field">
+                                {{ form_label(field) }}
+                                {{ form_widget(field) }}
+                                {{ form_errors(field) }}
+                            </div>
+                        {% endfor %}
+                        <div class="contact-field">
+                            {{ form_label(contactForm.subject) }}
+                            {{ form_widget(contactForm.subject) }}
+                            {{ form_errors(contactForm.subject) }}
+                        </div>
+                        <div class="contact-field">
+                            {{ form_label(contactForm.message) }}
+                            {{ form_widget(contactForm.message) }}
+                            {{ form_errors(contactForm.message) }}
+                        </div>
+                    </div>
+                    {{ form_errors(contactForm) }}
+                    <button class="contact-submit" type="submit">Send message <span aria-hidden="true">↗</span></button>
+                {{ form_end(contactForm) }}
+            </div>
+        </section>
+    </main>
+{% endblock %}
