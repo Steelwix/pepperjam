@@ -5,6 +5,10 @@
         {% set currentRoute = app.request.attributes.get('_route') %}
         {% set currentRouteParams = app.request.attributes.get('_route_params')|default({}) %}
 
+        {% if app.user and is_granted('ROLE_ADMIN') %}
+            <a class="nav-link fw-bold" href="{{ path('app_admin_users_index') }}">ACCOUNTS</a>
+        {% endif %}
+
         {% if app.user and is_granted('ROLE_ADMIN') and editing is defined and editing == false %}
             <a
                 class="nav-link fw-bold"

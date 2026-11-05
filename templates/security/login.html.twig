@@ -1,38 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Sign in · Pepperjam{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/auth-page.css') }}">
+{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+    <main class="auth-page">
+        <section class="auth-card" aria-labelledby="auth-title">
+            <div class="auth-card__intro">
+                <span class="auth-kicker">PEPPERJAM <b>•</b> STUDIO ACCESS</span>
+                <h1 id="auth-title">Good to<br>have you <em>back.</em></h1>
+                <p>Sign in to manage the studio site.</p>
+                <span class="auth-stamp" aria-hidden="true">PJ<br>★</span>
             </div>
-        {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Username</label>
-        <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+            <div class="auth-card__content">
+                {% if error %}
+                    <div class="auth-alert" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
+                {% if app.user %}
+                    <p class="auth-signed-in">You are signed in as <strong>{{ app.user.userIdentifier }}</strong>.</p>
+                    <a class="auth-button" href="{{ logout_path() }}">Sign out <span aria-hidden="true">↗</span></a>
+                {% else %}
+                    <form class="auth-form" method="post">
+                        <div class="auth-field">
+                            <label for="username">Username</label>
+                            <input type="text" value="{{ last_username }}" name="_username" id="username" autocomplete="username" required autofocus>
+                        </div>
 
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
+                        <div class="auth-field">
+                            <label for="password">Password</label>
+                            <input type="password" name="_password" id="password" autocomplete="current-password" required>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+                        <button class="auth-button" type="submit">Sign in <span aria-hidden="true">↗</span></button>
+                    </form>
+
+                    <p class="auth-switch">New around here? <a href="{{ path('app_register') }}">Create an account</a></p>
+                {% endif %}
             </div>
-        #}
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+        </section>
+    </main>
 {% endblock %}

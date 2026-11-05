@@ -1,0 +1,129 @@
+/* Shared responsive refinements */
+html { scroll-padding-top: 1rem; }
+body { overflow-x: clip; }
+img, video, iframe { max-width: 100%; }
+button, a, input, select, textarea { touch-action: manipulation; }
+
+@media (max-width: 991.98px) {
+    .techreel-activities-row,
+    .tech-activities-row { display: block; }
+
+    #techreel, #activities { width: 100%; }
+    #techreel .techreel-video { aspect-ratio: 16 / 9; }
+    #techreel video { object-fit: cover; }
+    #activities .activity-button { min-height: clamp(150px, 30vw, 230px); }
+
+    .collective { padding: clamp(3.5rem, 9vw, 5rem) 0; }
+    .collective-image { width: min(100% - 2rem, 720px); margin: 0 auto 2rem; border-radius: 20px; }
+    .collective-image img { max-height: 65vh; object-fit: cover; }
+    .collective-text { padding: 0 clamp(1.25rem, 5vw, 3rem); }
+    .collective-text h1 { margin-bottom: 1.5rem; font-size: clamp(2.4rem, 7vw, 4.5rem); }
+    .collective-text p { font-size: clamp(1rem, 2vw, 1.15rem); }
+
+    .site-footer { padding: 3.5rem clamp(1.25rem, 5vw, 3rem) 1.25rem; }
+    .site-footer__top { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; padding-bottom: 2.5rem; }
+}
+
+@media (max-width: 767.98px) {
+    .showreel-hero { min-height: min(82vh, 760px); min-height: min(82svh, 760px); }
+    .showreel-hero video { object-position: center; }
+    .showreel-logo { width: min(68vw, 280px); max-height: 20vh; }
+    .head-logo-edit-button, .video-edit-button { top: max(1rem, env(safe-area-inset-top)); }
+    .head-logo-edit-button { left: 1rem; }
+    .video-edit-button { right: 1rem; }
+    .audio-control { left: 1rem; bottom: max(1rem, env(safe-area-inset-bottom)); gap: .65rem; }
+    .audio-toggle { width: 40px; height: 40px; }
+    .audio-volume-wrapper { width: clamp(4.5rem, 20vw, 7rem); gap: .4rem; }
+    .showreel-hero-scroll { right: 1rem; bottom: max(1.2rem, env(safe-area-inset-bottom)); gap: .5rem; font-size: .58rem; letter-spacing: .08em; }
+    .showreel-hero-scroll-line { width: 1.5rem; }
+
+    .pop-separator { height: auto; min-height: 6rem; padding: 1.25rem 1rem; }
+    .pop-separator h1 { max-width: 100%; font-size: clamp(1.15rem, 5.8vw, 2rem); line-height: 1.05; text-align: center; }
+
+    body .team-section { width: 100%; margin: 3.5rem auto; padding: 2.5rem 0; }
+    body .team-header { display: flex; align-items: center; gap: .75rem; width: auto; margin: 0 1.25rem 1.25rem; padding: 0; }
+    body .team-header h2 { font-size: clamp(2rem, 9vw, 3.5rem); }
+    body .team-card { display: flex; flex-direction: column; flex-basis: clamp(190px, 54vw, 245px); width: clamp(190px, 54vw, 245px); }
+    body .team-card-image { flex: 0 0 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: 16 / 9; }
+    body .team-card-info { display: block; min-width: 0; padding: .7rem .8rem; }
+    body .team-card-info h3 { font-size: clamp(.88rem, 3.8vw, 1.1rem); overflow-wrap: anywhere; }
+    body .team-card-role { margin-bottom: .3rem; font-size: .52rem; letter-spacing: .07em; overflow-wrap: anywhere; }
+    body .team-bio-open { margin-top: .55rem; padding: .35rem .5rem; font-size: .55rem; }
+    body .team-marquee { padding: 1rem 0; }
+    body .team-group { gap: 1rem; padding-right: 1rem; }
+    .carousel-control-row { margin: 0 1.25rem; }
+    .carousel-controls { gap: .45rem; }
+    .carousel-controls button { width: 2.75rem; height: 2.5rem; font-size: 1.25rem; }
+
+    .resound-section, .software-section { width: 100%; margin: 3.5rem auto; padding: 2.25rem 0; }
+    .resound-header, .software-section__header { margin: 0 1.25rem 1.25rem; }
+    .resound-card { display: flex; flex-direction: column; flex-basis: clamp(190px, 54vw, 245px); width: clamp(190px, 54vw, 245px); height: auto; }
+    .resound-video { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+    .resound-video video { object-fit: cover; }
+    .resound-info { display: block; min-height: 0; padding: .65rem .8rem; }
+    .resound-info h3 { font-size: clamp(.82rem, 3.6vw, 1rem); }
+    .resound-group, .software-group { gap: 1rem; padding-right: 1rem; }
+    .resound-marquee, .software-marquee { padding: 1rem 0; }
+    .software-card { display: flex; width: clamp(155px, 44vw, 195px); flex-basis: clamp(155px, 44vw, 195px); min-height: 0; flex-direction: column; justify-content: center; gap: .55rem; padding: .8rem .65rem; }
+    .software-card__image { flex: 0 0 auto; width: clamp(3.5rem, 16vw, 4.5rem); height: clamp(3.5rem, 16vw, 4.5rem); }
+    .software-card__image img { padding: .5rem; }
+    .software-card h3 { min-width: 0; font-size: .78rem; text-align: center; overflow-wrap: anywhere; }
+    .software-section__add { margin: 0 1.25rem .75rem; }
+
+    .activity-page { min-height: 70svh; padding: 1rem 1rem 3rem; }
+    .activity-switcher { align-items: stretch; gap: .5rem; min-height: 0; margin-bottom: 2.25rem; overflow: visible; }
+    .activity-switcher__home { min-height: 2.6rem; padding: .4rem .65rem; }
+    .activity-switcher__list { min-width: 0; flex: 1; gap: .45rem; padding: .1rem .2rem .6rem; scroll-snap-type: x proximity; overscroll-behavior-inline: contain; }
+    .activity-switcher__link { min-height: 2.6rem; padding: .4rem .65rem; scroll-snap-align: start; }
+    .activity-hero { padding-right: 0; }
+    .activity-hero h1 { max-width: 100%; font-size: clamp(2.4rem, 12vw, 4.5rem); overflow-wrap: anywhere; }
+    .activity-hero::after { right: .25rem; bottom: -.25rem; width: 2.5rem; height: 2.5rem; opacity: .45; }
+    .activity-add-project { min-height: 2.75rem; align-self: flex-start; }
+    .project-grid { gap: 1.5rem; }
+    .project-tile__visual { aspect-ratio: 4 / 3; border-width: 2px; box-shadow: 3px 3px 0 var(--color-pop-red); }
+
+    .contact-page { min-height: auto; padding: 2.5rem 1.25rem 3.5rem; }
+    .contact-card { width: 100%; }
+    .contact-intro, .contact-form-wrap { padding: clamp(1.35rem, 6vw, 2.25rem); }
+    .contact-intro h1 { margin-top: 1.15rem; font-size: clamp(2.75rem, 13vw, 4.5rem); }
+    .contact-form-wrap { min-width: 0; }
+    .contact-field input, .contact-field textarea { font-size: 16px; }
+
+    .activity-page .container, main.container { padding-right: 1rem; padding-left: 1rem; }
+    .activity-page .card-body { padding: 1.25rem !important; }
+    #activities > .table { display: block; max-width: 100%; overflow-x: auto; white-space: nowrap; }
+    .card-body .d-flex.justify-content-between { align-items: stretch; flex-direction: column-reverse; gap: .75rem; }
+    .card-body .d-flex.justify-content-between > * { width: 100%; }
+    .card-body .d-flex.justify-content-between .btn { min-height: 2.8rem; }
+}
+
+@media (max-width: 520px) {
+    .showreel-hero { min-height: 72vh; min-height: 72svh; }
+    .showreel-logo { width: min(72vw, 240px); }
+    .showreel-hero-scroll { max-width: 7rem; }
+    .pop-separator { min-height: 5rem; }
+
+    .site-footer { padding: 2.75rem 1.25rem 1rem; }
+    .site-footer__top { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; padding-bottom: 2rem; }
+    .site-footer__brand-logo { max-width: min(70vw, 200px); max-height: 3.5rem; }
+    .site-footer__tagline { font-size: 1.5rem; }
+    .site-footer__bottom { display: grid; grid-template-columns: 1fr auto; gap: .75rem; font-size: .65rem; }
+    .site-footer__note { grid-column: 1 / -1; grid-row: 2; }
+
+    .activity-switcher { gap: .4rem; }
+    .activity-switcher__home, .activity-switcher__link { font-size: .6rem; letter-spacing: .01em; }
+    .project-tile__actions { gap: .6rem; }
+    .project-tile__actions a, .project-tile__actions button { min-height: 2.6rem; padding: .5rem .8rem; }
+
+    body .team-header h2 { font-size: clamp(1.8rem, 8vw, 2.8rem); }
+    .carousel-controls button { width: 2.5rem; height: 2.35rem; }
+    .contact-fields { grid-template-columns: minmax(0, 1fr); }
+    .contact-field:nth-child(n) { grid-column: 1; }
+    .contact-submit { width: 100%; min-height: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto !important; }
+    .collective::before { animation: none !important; }
+    .team-card, .resound-card, .software-card, .contact-submit { transition: none !important; }
+}
