@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cookie policy · Pepperjam{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/legal-page.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="legal-page">
+        <header class="legal-hero">
+            <p class="legal-kicker">A LITTLE TRANSPARENCY</p>
+            <h1>Cookie <em>policy</em></h1>
+            <p>What this website stores in your browser, and why.</p>
+        </header>
+
+        <div class="legal-content">
+            <section class="legal-block">
+                <span class="legal-index">01</span>
+                <div>
+                    <h2>Essential cookies</h2>
+                    <p>This website uses technical cookies needed for sessions, account authentication, form security and temporary status messages. They are not used to build advertising profiles or track visitors across other websites.</p>
+                    <div class="legal-cookie-table" role="table" aria-label="Cookies used on this website">
+                        <div class="legal-cookie-row legal-cookie-row--head" role="row">
+                            <span role="columnheader">Cookie</span><span role="columnheader">Purpose</span><span role="columnheader">Duration</span>
+                        </div>
+                        <div class="legal-cookie-row" role="row">
+                            <span role="cell"><code>PHPSESSID</code> (may vary by environment)</span>
+                            <span role="cell">Maintains the Symfony session for login, CSRF protection and flash messages.</span>
+                            <span role="cell">Session</span>
+                        </div>
+                        <div class="legal-cookie-row" role="row">
+                            <span role="cell">Temporary CSRF cookie</span>
+                            <span role="cell">Protects the sign-in form against cross-site request forgery. It is removed after submission.</span>
+                            <span role="cell">Until form submission</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="legal-block">
+                <span class="legal-index">02</span>
+                <div>
+                    <h2>Analytics and advertising</h2>
+                    <p>No analytics or advertising tracker is currently integrated into the website. If this changes, this page and the consent mechanism will be updated before any non-essential tracker is activated.</p>
+                </div>
+            </section>
+
+            <section class="legal-block">
+                <span class="legal-index">03</span>
+                <div>
+                    <h2>Third-party resources</h2>
+                    <p>The website loads Bootstrap from jsDelivr and Trix from unpkg. When these resources load, your browser connects to those providers and shares technical request data such as your IP address. This website does not embed third-party video players.</p>
+                </div>
+            </section>
+
+            <section class="legal-block">
+                <span class="legal-index">04</span>
+                <div>
+                    <h2>Your choices</h2>
+                    <p>Essential cookies are required for the related features to work. You can configure your browser to block or delete cookies; doing so may prevent sign-in and protected forms from working correctly.</p>
+                    <p>For questions, contact the website publisher using the details on the <a href="{{ path('app_legal_notice') }}">legal notice</a> page.</p>
+                </div>
+            </section>
+
+            <p class="legal-updated">Last updated {{ 'now'|date('F j, Y') }}</p>
+        </div>
+    </main>
+{% endblock %}

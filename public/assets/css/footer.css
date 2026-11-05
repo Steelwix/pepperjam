@@ -140,6 +140,9 @@
 
 .site-footer__back-top { color: #fff; white-space: nowrap; }
 .site-footer__back-top span { color: var(--color-pop-red); font-size: 15px; }
+.site-footer__legal { display: flex; flex-wrap: wrap; gap: 14px; }
+.site-footer__legal a { color: rgba(255,255,255,.62); font-size: 10px; font-weight: 700; text-decoration: none; }
+.site-footer__legal a:hover { color: var(--color-pop-yellow); }
 
 @media (max-width: 800px) {
     .site-footer__top { grid-template-columns: 1fr 1fr; gap: 34px 24px; }

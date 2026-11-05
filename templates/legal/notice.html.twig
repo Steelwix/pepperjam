@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Legal notice · Pepperjam{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/legal-page.css') }}">
+{% endblock %}
+
+{% block body %}
+    <main class="legal-page">
+        <header class="legal-hero">
+            <p class="legal-kicker">THE FINE PRINT</p>
+            <h1>Legal <em>notice</em></h1>
+            <p>Information about the publisher and the services behind this website.</p>
+        </header>
+
+        <div class="legal-content">
+            <section class="legal-block">
+                <span class="legal-index">01</span>
+                <div>
+                    <h2>Website publisher</h2>
+                    <p><strong>PEPPERJAM — [legal business name to complete]</strong></p>
+                    <dl class="legal-details">
+                        <dt>Legal form</dt><dd>[Legal form]</dd>
+                        <dt>Registered office</dt><dd>[Full business address]</dd>
+                        <dt>Registration</dt><dd>[Registration number and registry]</dd>
+                        <dt>VAT number</dt><dd>[VAT number, if applicable]</dd>
+                        <dt>Publication director</dt><dd>[First and last name]</dd>
+                        <dt>Contact</dt><dd>[Professional contact email and/or phone]</dd>
+                    </dl>
+                </div>
+            </section>
+
+            <section class="legal-block">
+                <span class="legal-index">02</span>
+                <div>
+                    <h2>Hosting</h2>
+                    <p>[Hosting provider legal name, postal address and contact details to complete before publication.]</p>
+                </div>
+            </section>
+
+            <section class="legal-block">
+                <span class="legal-index">03</span>
+                <div>
+                    <h2>Intellectual property</h2>
+                    <p>Unless otherwise stated, the website’s text, graphic design, logo, sound and audiovisual content are protected by intellectual property rights. Reproduction or reuse requires prior authorization from the relevant rights holder.</p>
+                </div>
+            </section>
+
+            <section class="legal-block">
+                <span class="legal-index">04</span>
+                <div>
+                    <h2>Personal data</h2>
+                    <p>Information submitted through the contact form is used to respond to your request. Account details are used to manage access to the website’s private area. Complete this section with the data controller’s identity, contact details, retention periods and any applicable data protection contact before publication.</p>
+                    <p>You can read about the technical cookies used by this website on our <a href="{{ path('app_cookie_policy') }}">cookie page</a>.</p>
+                </div>
+            </section>
+
+            <p class="legal-updated">Last updated {{ 'now'|date('F j, Y') }}</p>
+        </div>
+    </main>
+{% endblock %}

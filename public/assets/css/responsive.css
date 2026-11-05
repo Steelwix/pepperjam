@@ -108,7 +108,8 @@ button, a, input, select, textarea { touch-action: manipulation; }
     .site-footer__brand-logo { max-width: min(70vw, 200px); max-height: 3.5rem; }
     .site-footer__tagline { font-size: 1.5rem; }
     .site-footer__bottom { display: grid; grid-template-columns: 1fr auto; gap: .75rem; font-size: .65rem; }
-    .site-footer__note { grid-column: 1 / -1; grid-row: 2; }
+    .site-footer__legal { grid-column: 1 / -1; grid-row: 2; }
+    .site-footer__note { grid-column: 1 / -1; grid-row: 3; }
 
     .activity-switcher { gap: .4rem; }
     .activity-switcher__home, .activity-switcher__link { font-size: .6rem; letter-spacing: .01em; }

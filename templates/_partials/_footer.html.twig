@@ -32,6 +32,10 @@
     <div class="site-footer__bottom">
         <span>© {{ 'now'|date('Y') }} Pepperjam Studio</span>
 {#        <span class="site-footer__note">Independent sound for worlds worth getting lost in.</span>#}
-        <a href="#showreel" class="site-footer__back-top">Back to top <span aria-hidden="true">↑</span></a>
+        <nav class="site-footer__legal" aria-label="Legal information">
+            <a href="{{ path('app_legal_notice') }}">Legal notice</a>
+            <a href="{{ path('app_cookie_policy') }}">Cookies</a>
+        </nav>
+        <a href="{{ path('app_home') }}#showreel" class="site-footer__back-top">Back to top <span aria-hidden="true">↑</span></a>
     </div>
 </footer>

@@ -1,7 +1,7 @@
 
 
 <header class="d-flex justify-content-center mt-3">
-    <nav class="navbar">
+    <nav class="navbar gap-3">
         {% set currentRoute = app.request.attributes.get('_route') %}
         {% set currentRouteParams = app.request.attributes.get('_route_params')|default({}) %}
 
