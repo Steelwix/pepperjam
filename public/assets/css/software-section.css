@@ -34,6 +34,10 @@
 .software-section__header h2 span { color: var(--color-pop-red); }
 .software-section__intro { margin: 14px 0 0; color: rgba(255,255,255,.65); font-size: 14px; }
 .software-section__add { display: inline-block; margin-bottom: 14px; color: var(--software-ink); background: var(--color-pop-yellow); padding: 9px 14px; font-size: 12px; font-weight: 800; text-decoration: none; box-shadow: 3px 3px 0 var(--color-pop-red); }
+.software-admin-table { position: relative; z-index: 1; }
+.software-admin-table .table { --bs-table-bg: #111; --bs-table-color: #fff; --bs-table-border-color: rgba(255,255,255,.16); }
+.software-admin-table thead th { color: var(--color-pop-yellow); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.software-admin-table__image { width: 64px; height: 48px; object-fit: contain; background: #080808; }
 .software-section__empty { color: rgba(255,255,255,.7); }
 .software-marquee { width: 100%; overflow: hidden; padding: 28px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
 .software-track { display: flex; width: max-content; }

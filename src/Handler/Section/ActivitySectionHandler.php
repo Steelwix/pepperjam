@@ -51,25 +51,42 @@
 
                 $this->em->persist($section);
             }
-            if(!isset($datas['id']) ){
+            $id = $request->query->get('id');
+            if (!$id) {
                 $activity = new Activity();
             } else {
-                $activity = $this->em->getRepository(Activity::class)->find($datas['id']);
+                $activity = $this->em->getRepository(Activity::class)->find($id);
+                if (!$activity) {
+                    throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+                }
             }
 
             $form = $this->formFactory->create(
                 ActivityType::class,
-                $activity
+                $activity,
+                ['image_required' => $activity->getMedia()->isEmpty()]
             );
             $form->handleRequest($request);
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+            if ($form->isSubmitted() && $request->request->getBoolean('_cancel')) {
+                return new Response($this->twig->render('home/section/turbo-load/activities.html.twig', [
+                    'section' => $section,
+                    'spot' => Section::ACTIVITIES_TYPE,
+                    'editing' => true,
+                ]));
+            }
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $media = $this->mediaService->create(
-                    $form->get('media')->getData()['media'],
-                    $section,  $activity->getMedia()->first()?:null
-                );
-
-                $activity->addMedium($media);
+                $upload = $form->get('media')->get('media')->getData();
+                if ($upload !== null) {
+                    $media = $this->mediaService->create(
+                        $upload,
+                        $section,
+                        $activity->getMedia()->first() ?: null
+                    );
+                    $activity->addMedium($media);
+                }
 
                 $this->em->persist($activity);
 
@@ -83,11 +100,10 @@
                 );
             }
 
-            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-
             return new Response(
                 $this->twig->render('home/section/form/activities-form.html.twig', [
                     'section' => $section,
+                    'activity' => $activity,
                     'form' => $form->createView(),
                     'spot' => Section::ACTIVITIES_TYPE
                 ])

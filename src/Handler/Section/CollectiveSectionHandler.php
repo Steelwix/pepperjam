@@ -45,16 +45,26 @@
                 $this->em->persist($section);
             }
             $data = $section->getData();
-            $form = $this->formFactory->create(CollectiveType::class, $data);
+            $form = $this->formFactory->create(CollectiveType::class, $data, [
+                'image_required' => $section->getMedia()->isEmpty(),
+            ]);
             $form->handleRequest($request);
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
+            if ($form->isSubmitted() && $request->request->getBoolean('_cancel')) {
+                return new Response($this->twig->render('home/section/turbo-load/collective.html.twig', [
+                    'section' => $section,
+                    'spot' => Section::COLLECTIVE_TYPE,
+                    'editing' => true,
+                ]));
+            }
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $formData = $form->getData();
-                $this->mediaService->create(
-                    $formData['media']['media'],
-                    $section, $section->getMedia()->first()?: null
-                );
+                $upload = $form->get('media')->get('media')->getData();
+                if ($upload !== null) {
+                    $this->mediaService->create($upload, $section, $section->getMedia()->first() ?: null);
+                }
                 unset($formData['media']);
 
                 $data = $this->sectionService->buildData($formData);
@@ -62,8 +72,8 @@
                 return new Response(
                     $this->twig->render('home/section/turbo-load/collective.html.twig', [
                         'media' => $section->getMedia()->first(),
-                        'form' => $form->createView(),
-                        'spot' => Section::COLLECTIVE_TYPE
+                        'spot' => Section::COLLECTIVE_TYPE,
+                        'editing' => true,
                     ])
                 );
             }
@@ -72,7 +82,8 @@
                 $this->twig->render('home/section/form/collective-form.html.twig', [
                     'media' => $section->getMedia()->first(),
                     'form' => $form->createView(),
-                    'spot' => Section::COLLECTIVE_TYPE
+                    'spot' => Section::COLLECTIVE_TYPE,
+                    'editing' => true,
                 ])
             );
         }

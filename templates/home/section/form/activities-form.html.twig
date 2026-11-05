@@ -24,11 +24,11 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-xl-9">
 
-                    <div class="card bg-dark border-secondary shadow-lg overflow-hidden">
-                        <div class="card-body p-4 p-md-5">
+                    <div class="card section-edit-card bg-dark overflow-hidden">
+                        <div class="card-body section-edit-card__body p-4 p-md-5">
 
                             {# En-tête #}
-                            <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="section-edit-heading d-flex align-items-center gap-3 mb-4">
                                 <div
                                     class="d-flex align-items-center justify-content-center rounded-3 bg-primary bg-opacity-25 text-primary"
                                     style="width: 48px; height: 48px;"
@@ -68,7 +68,7 @@
                                 }) }}
                             {% endif %}
 
-                            <div class="p-4 mb-4 rounded-4 bg-black bg-opacity-25 border border-secondary border-opacity-50">
+                            <div class="section-edit-fields p-4 mb-4 rounded-4 bg-black bg-opacity-25">
 
                                 {# Titre #}
                                 <div class="mb-4">
@@ -89,7 +89,7 @@
                                 </div>
 
                                 {# Média existant #}
-                                {% set currentMedia = activity.media ?? null %}
+                                {% set currentMedia = activity.media.first ?? null %}
 
                                 {% if currentMedia and currentMedia.filename is defined and currentMedia.filename %}
                                     {% set ext = currentMedia.filename|split('.')|last|lower %}
@@ -145,15 +145,10 @@
                             </div>
 
                             {# Boutons #}
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a
-                                    href="{{ path('app_edit_section', {
-                                        sectionType: spot
-                                    }) }}"
-                                    class="btn btn-outline-secondary"
-                                >
+                            <div class="section-edit-actions d-flex justify-content-between align-items-center">
+                                <button type="submit" name="_cancel" value="1" class="btn btn-outline-secondary">
                                     Cancel
-                                </a>
+                                </button>
 
                                 <button type="submit" class="btn btn-primary px-4">
                                     <i class="bi bi-cloud-arrow-up me-2"></i>

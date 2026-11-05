@@ -16,7 +16,9 @@
         public function buildForm(FormBuilderInterface $builder, array $options): void
         {
             $builder
-                ->add('media', MediaType::class)
+                ->add('media', MediaType::class, [
+                    'required' => $options['image_required'],
+                ])
                 ->add('title', TextType::class)
                 ->add('content', TextareaType::class, [
                     'attr' => [
@@ -27,6 +29,7 @@
 
         public function configureOptions(OptionsResolver $resolver): void
         {
-
+            $resolver->setDefaults(['image_required' => true]);
+            $resolver->setAllowedTypes('image_required', 'bool');
         }
     }

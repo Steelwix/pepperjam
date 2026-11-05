@@ -57,17 +57,31 @@
                 $this->em->persist($section);
             }
 
-            $form = $this->formFactory->create(MediaType::class);
+            $form = $this->formFactory->create(MediaType::class, null, [
+                'required' => $section->getMedia()->isEmpty(),
+            ]);
             $form->handleRequest($request);
+            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
+            if ($form->isSubmitted() && $request->request->getBoolean('_cancel')) {
+                return new Response($this->twig->render('home/section/turbo-load/techreel.html.twig', [
+                    'media' => $section->getMedia()->first() ?: null,
+                    'spot' => Section::TECHREEL_TYPE,
+                    'editing' => true,
+                ]));
+            }
 
             if ($form->isSubmitted() && $form->isValid()) {
 
 
-                $this->mediaService->create(
-                    $form->get('media')->getData(),
-                    $section, $section->getMedia()->first()?: null
-                );
+                $upload = $form->get('media')->getData();
+                if ($upload !== null) {
+                    $this->mediaService->create(
+                        $upload,
+                        $section,
+                        $section->getMedia()->first() ?: null,
+                    );
+                }
                 return new Response(
                     $this->twig->render('home/section/turbo-load/techreel.html.twig', [
                         'media' => $section->getMedia()->first(),
@@ -76,10 +90,8 @@
                     ])
                 );
             }
-            $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-
             return new Response(
-                $this->twig->render('home/section/form/showreel-form.html.twig', [
+                $this->twig->render('home/section/form/techreel-form.html.twig', [
                     'media' => $section->getMedia()->first(),
                     'form' => $form->createView(),
                     'spot' => Section::TECHREEL_TYPE

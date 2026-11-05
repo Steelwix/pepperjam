@@ -20,6 +20,7 @@
                 ->add('media', MediaType::class, [
                     'label' => 'Vidéo',
                     'mapped' => false,
+                    'required' => $options['image_required'],
                 ])
             ;
         }
@@ -28,6 +29,8 @@
         {
             $resolver->setDefaults([
                 'data_class' => Resound::class,
+                'image_required' => true,
             ]);
+            $resolver->setAllowedTypes('image_required', 'bool');
         }
     }

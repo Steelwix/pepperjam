@@ -69,6 +69,14 @@
             $form->handleRequest($request);
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
+            if ($form->isSubmitted() && $request->request->getBoolean('_cancel')) {
+                return new Response($this->twig->render('home/section/turbo-load/team.html.twig', [
+                    'section' => $section,
+                    'spot' => Section::TEAM_TYPE,
+                    'editing' => true,
+                ]));
+            }
+
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $uploadedMedia = $form->get('media')->get('media')->getData();

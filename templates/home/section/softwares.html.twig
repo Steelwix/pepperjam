@@ -13,7 +13,28 @@
     <a href="{{ path('app_edit_section', { sectionType: 'softwares' }) }}"
        class="software-section__add edit-display">＋ Add software</a>
 
-    {% if softwares is not empty %}
+    {% if editing|default(false) %}
+        <div class="table-responsive software-admin-table">
+            <table class="table table-dark table-hover align-middle">
+                <thead><tr><th>Software</th><th>Image</th><th class="text-end">Actions</th></tr></thead>
+                <tbody>
+                {% for software in softwares %}
+                    {% set media = software.media.first %}
+                    <tr>
+                        <td>{{ software.name }}</td>
+                        <td>{% if media %}<img class="software-admin-table__image" src="{{ asset(media.path ~ media.filename) }}" alt="{{ software.name }}">{% else %}<span class="text-secondary">No image</span>{% endif %}</td>
+                        <td class="text-end text-nowrap">
+                            <a href="{{ path('app_edit_section', { sectionType: 'softwares', id: software.id }) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="{{ path('app_remove_software', { id: software.id }) }}" class="btn btn-danger btn-sm" data-turbo-confirm="Delete this software?">Delete</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="3">No software added yet.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% elseif softwares is not empty %}
         {% if shouldScroll %}
             <div class="carousel-control-row">
                 <div class="carousel-controls" aria-label="Software carousel controls">

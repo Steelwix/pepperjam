@@ -35,9 +35,11 @@
             Votre navigateur ne supporte pas la lecture vidéo.
         </video>
 
-        {% set showreelSettings = section.data ?? {} %}
-        {% set logoAutoHide = showreelSettings.logoAutoHide is defined ? showreelSettings.logoAutoHide : true %}
-        {% set logoDisplayDuration = showreelSettings.logoDisplayDuration is defined ? showreelSettings.logoDisplayDuration : 3 %}
+        {% set logoSettings = headLogoSection ? (headLogoSection.data ?? {}) : {} %}
+        {# Retain current settings until they are next saved in the Head Logo form. #}
+        {% set legacySettings = section.data ?? {} %}
+        {% set logoAutoHide = logoSettings.logoAutoHide is defined ? logoSettings.logoAutoHide : (legacySettings.logoAutoHide is defined ? legacySettings.logoAutoHide : true) %}
+        {% set logoDisplayDuration = logoSettings.logoDisplayDuration is defined ? logoSettings.logoDisplayDuration : (legacySettings.logoDisplayDuration is defined ? legacySettings.logoDisplayDuration : 3) %}
         {% if logoMedia %}
             <img
                 class="showreel-logo{{ logoAutoHide ? ' showreel-logo--auto-hide' : '' }}"

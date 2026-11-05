@@ -49,6 +49,14 @@ class SoftwareSectionHandler implements SectionHandlerInterface
         $form->handleRequest($request);
         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
+        if ($form->isSubmitted() && $request->request->getBoolean('_cancel')) {
+            return new Response($this->twig->render('home/section/turbo-load/softwares.html.twig', [
+                'section' => $section,
+                'spot' => Section::SOFTWARES_TYPE,
+                'editing' => true,
+            ]));
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $upload = $form->get('media')->get('media')->getData();
             if ($upload !== null) {

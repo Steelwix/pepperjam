@@ -1,0 +1,58 @@
+.section-edit-card { width: 100%; padding: clamp(1.25rem, 4vw, 2.75rem); border: 1px solid rgba(255,255,255,.2); background: #111; color: #fff; box-shadow: 8px 8px 0 var(--color-pop-red); }
+.card.section-edit-card { border-color: rgba(255,255,255,.2) !important; border-radius: 0; box-shadow: 8px 8px 0 var(--color-pop-red) !important; }
+.section-edit-card__body { padding: clamp(1.25rem, 4vw, 2.75rem) !important; }
+.section-edit-heading { position: relative; display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 1.75rem !important; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,.16); }
+.section-edit-heading > div:first-child:has(i) { width: 3rem !important; height: 3rem !important; margin-bottom: 1rem; border-radius: 0 !important; color: #080808 !important; background: var(--color-pop-yellow) !important; }
+.section-edit-heading > div:first-child:has(i) i { color: #080808 !important; }
+.section-edit-heading h2, .section-edit-heading h3 { margin: 0 0 .5rem !important; color: #fff; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 950; letter-spacing: -.04em; text-transform: uppercase; }
+.section-edit-heading p:not(.section-edit-kicker) { margin: 0; color: rgba(255,255,255,.62) !important; line-height: 1.55; }
+.section-edit-kicker { margin: 0 0 .6rem; color: var(--color-pop-yellow); font-size: .67rem; font-weight: 900; letter-spacing: .17em; text-transform: uppercase; }
+.section-edit-fields { padding: clamp(1rem, 3vw, 1.5rem) !important; border: 1px solid rgba(255,255,255,.14); border-radius: 0 !important; background: #090909 !important; }
+.section-edit-fields > .mb-3, .section-edit-fields > .mb-4 { margin-bottom: 1.2rem !important; }
+.section-edit-fields .form-label, .section-edit-richtext > label { display: block; margin-bottom: .5rem; color: var(--color-pop-yellow); font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.section-edit-card > .card-body > form .form-label, .section-edit-card > .card-body > form .form-control { color: #fff; }
+.section-edit-card > .card-body > form .form-label { color: var(--color-pop-yellow); font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.section-edit-card > .card-body > form .form-control { border: 1px solid #444; border-radius: 0; background: #111; }
+.section-edit-fields .form-control, .section-edit-fields .form-select { min-height: 2.9rem; border: 1px solid #444; border-radius: 0; background-color: #111; color: #fff; box-shadow: none; }
+.section-edit-fields .form-control:focus, .section-edit-fields .form-select:focus { border-color: var(--color-pop-red); box-shadow: 0 0 0 2px rgba(255,23,68,.18); }
+.section-edit-fields input[type="file"].form-control { min-height: auto; padding: .65rem; color: rgba(255,255,255,.7); }
+.section-edit-fields input[type="file"]::file-selector-button { margin: -.65rem .8rem -.65rem -.65rem; padding: .75rem .9rem; border: 0; border-right: 1px solid #444; border-radius: 0; color: #fff; background: #292929; font-weight: 800; }
+.section-edit-fields .form-text { color: rgba(255,255,255,.52); }
+.section-edit-fields .invalid-feedback, .section-edit-fields ul, .section-edit-richtext ul { margin: .4rem 0 0; color: #ff8790; font-size: .8rem; list-style: none; }
+.section-edit-fields .form-check { display: flex; align-items: center; gap: .6rem; min-height: 2rem; }
+.section-edit-fields .form-check-input { margin: 0; border-radius: 0; background-color: #111; border-color: #777; }
+.section-edit-fields .form-check-input:checked { border-color: var(--color-pop-red); background-color: var(--color-pop-red); }
+.section-edit-fields .form-check-label { color: rgba(255,255,255,.82); }
+.section-edit-subsection, .section-edit-links { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,.16); }
+.section-edit-subsection h5, .section-edit-subtitle { margin: 0 0 1rem; color: #fff; font-size: .9rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+.section-edit-preview { overflow: hidden; margin: 1rem 0; border: 1px solid rgba(255,255,255,.18); background: #000; }
+.section-edit-preview img, .section-edit-preview video { display: block; width: 100%; max-height: min(52vh, 440px); object-fit: contain; }
+.section-edit-preview p { margin: 0; padding: .6rem .8rem; overflow-wrap: anywhere; color: rgba(255,255,255,.55); font-size: .72rem; }
+.section-edit-preview--portrait img { width: auto; max-width: 100%; max-height: 340px; margin-inline: auto; }
+.activity-media-preview { max-height: 300px; border: 1px solid rgba(255,255,255,.18); background: #000; }
+.activity-media-preview img, .activity-media-preview video { max-height: 300px; }
+.section-edit-richtext trix-editor { min-height: 10rem; padding: .9rem; border: 1px solid #444; border-radius: 0; background: #111; color: #fff; }
+.section-edit-richtext trix-toolbar .trix-button-group { border-color: #484848; }
+.section-edit-richtext trix-toolbar .trix-button { border-bottom-color: #484848; background-color: #222; }
+.section-edit-richtext trix-toolbar .trix-button:not(:disabled) { color: #fff; }
+.section-edit-actions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; margin-top: 1.25rem; }
+.section-edit-actions .btn, .section-edit-card .btn-primary, .section-edit-card .btn-secondary { min-height: 2.8rem; padding: .7rem 1rem; border: 0; border-radius: 0; color: #080808 !important; background: var(--color-pop-yellow) !important; box-shadow: 3px 3px 0 var(--color-pop-red); font-size: .72rem; font-weight: 950; letter-spacing: .04em; text-transform: uppercase; }
+.section-edit-actions .btn:hover, .section-edit-card .btn-primary:hover, .section-edit-card .btn-secondary:hover { color: #fff !important; background: var(--color-pop-red) !important; }
+.section-edit-actions .btn-outline-light, .section-edit-card .btn-outline-light { border: 1px solid rgba(255,255,255,.55); color: #fff !important; background: transparent !important; box-shadow: none; }
+.section-edit-actions .btn-outline-light:hover, .section-edit-card .btn-outline-light:hover { border-color: var(--color-pop-red); background: var(--color-pop-red) !important; }
+.section-edit-form > .section-edit-actions { margin-top: 1.25rem; }
+.section-edit-links .link-item { margin-bottom: .75rem; padding: .8rem; border: 1px solid rgba(255,255,255,.12); background: #111; }
+.section-edit-links #add-link { border-radius: 0; font-size: .68rem; font-weight: 800; text-transform: uppercase; }
+.software-form.section-edit-card { gap: 0; }
+.software-form.section-edit-card .section-edit-kicker { margin-bottom: .6rem; }
+.software-form.section-edit-card .form-label { color: var(--color-pop-yellow); font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.software-form.section-edit-card .form-control { border-radius: 0; background: #090909; color: #fff; }
+.software-form.section-edit-card > form > .btn { margin-top: 1rem; }
+@media (max-width: 600px) {
+    .section-edit-card, .card.section-edit-card { box-shadow: 5px 5px 0 var(--color-pop-red) !important; }
+    .section-edit-heading { align-items: flex-start !important; }
+    .section-edit-actions { flex-direction: column-reverse; }
+    .section-edit-actions .btn { width: 100%; }
+    .section-edit-fields { padding: 1rem !important; }
+    .section-edit-richtext trix-editor { min-height: 8rem; }
+}

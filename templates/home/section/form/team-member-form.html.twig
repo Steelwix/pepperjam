@@ -1,80 +1,65 @@
 <turbo-stream action="replace" target="{{ spot }}">
     <template>
         <section id="{{ spot }}" class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-9">
+                    <div class="section-edit-card">
+                        <header class="section-edit-heading">
+                            <p class="section-edit-kicker">// THE PEOPLE //</p>
+                            <h2>{{ member is defined and member.id ? 'Edit team member' : 'Add team member' }}</h2>
+                            <p>Update their profile, portrait and links.</p>
+                        </header>
 
-            {{ form_start(form, {
-                action: path('app_edit_section', {
-                    sectionType: spot,
-                    id: member.id|default(null)
-                }),
-                attr: {
-                    'data-turbo': 'true'
-                }
-            }) }}
+                        {{ form_start(form, {
+                            action: path('app_edit_section', { sectionType: spot, id: member.id|default(null) }),
+                            attr: { 'data-turbo': 'true', class: 'section-edit-form' }
+                        }) }}
+                            <div class="section-edit-fields">
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-6">{{ form_row(form.firstname) }}</div>
+                                    <div class="col-12 col-md-6">{{ form_row(form.lastname) }}</div>
+                                </div>
+                                {{ form_row(form.role) }}
 
-            {{ form_row(form.firstname) }}
-            {{ form_row(form.lastname) }}
-            {{ form_row(form.role) }}
+                                <div class="section-edit-richtext">
+                                    {{ form_label(form.bio, 'Bio') }}
+                                    {{ form_widget(form.bio, { attr: { hidden: true } }) }}
+                                    <trix-editor input="{{ form.bio.vars.id }}"></trix-editor>
+                                    {{ form_errors(form.bio) }}
+                                </div>
 
-            {{ form_label(form.bio, 'Bio', {
-                label_attr: {
-                    class: 'form-label fw-semibold'
-                }
-            }) }}
+                                {% if member is defined %}
+                                    {% set currentMedia = member.media.first %}
+                                    {% if currentMedia %}
+                                        <div class="section-edit-preview section-edit-preview--portrait">
+                                            <img src="{{ asset(currentMedia.path ~ currentMedia.filename) }}" alt="{{ member.firstname }} {{ member.lastname }}">
+                                            <p>{{ currentMedia.filename }}</p>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {{ form_row(form.media) }}
 
-            {{ form_widget(form.bio, {
-                attr: {
-                    hidden: true
-                }
-            }) }}
+                                <div class="section-edit-links">
+                                    <p class="section-edit-subtitle">Profile links</p>
+                                    <div id="links-list" data-index="{{ form.links|length }}" data-prototype="{{ form_widget(form.links.vars.prototype)|e('html_attr') }}">
+                                        {% for link in form.links %}
+                                            <div class="link-item">{{ form_row(link.link) }}</div>
+                                        {% endfor %}
+                                    </div>
+                                    {% do form.links.setRendered() %}
+                                    <button type="button" id="add-link" class="btn btn-outline-light btn-sm">＋ Add a link</button>
+                                </div>
+                            </div>
 
-            <trix-editor input="{{ form.bio.vars.id }}"></trix-editor>
-            {% if member is defined %}
-                {% set currentMedia = member.media.first %}
+                            <div class="section-edit-actions">
+                                <button type="submit" name="_cancel" value="1" class="btn btn-outline-light">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save member <span aria-hidden="true">↗</span></button>
+                            </div>
 
-                {% if currentMedia %}
-                    <div class="mb-3">
-                        <img
-                            src="{{ asset(currentMedia.path ~ currentMedia.filename) }}"
-                            alt="{{ member.firstname }} {{ member.lastname }}"
-                            class="img-fluid"
-                            style="max-width: 300px;"
-                        >
+                        {{ form_end(form) }}
                     </div>
-                {% endif %}
-            {% endif %}
-
-            {{ form_row(form.media) }}
-
-            <div
-                id="links-list"
-                data-index="{{ form.links|length }}"
-                data-prototype="{{ form_widget(form.links.vars.prototype)|e('html_attr') }}"
-            >
-                {% for link in form.links %}
-                    <div class="link-item mb-3">
-                        {{ form_row(link.link) }}
-                    </div>
-                {% endfor %}
+                </div>
             </div>
-
-            {% do form.links.setRendered() %}
-
-            <button
-                type="button"
-                id="add-link"
-                class="btn btn-secondary mt-2"
-            >
-                + Add a link
-            </button>
-
-            <div class="mt-3">
-                <button type="submit" class="btn btn-primary">
-                    Submit
-                </button>
-            </div>
-
-            {{ form_end(form) }}
 
             <script>
                 (() => {

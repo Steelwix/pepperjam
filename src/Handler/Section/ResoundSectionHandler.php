@@ -62,19 +62,31 @@
                 $resound = new Resound();
             } else {
                 $resound = $this->em->getRepository(Resound::class)->find($datas['id']);
+                if (!$resound) {
+                    throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+                }
             }
 
-            $form = $this->formFactory->create(ResoundType::class, $resound);
+            $form = $this->formFactory->create(ResoundType::class, $resound, [
+                'image_required' => $resound->getMedia() === null,
+            ]);
             $form->handleRequest($request);
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $request->request->getBoolean('_cancel')) {
+                return new Response($this->twig->render('home/section/turbo-load/resound.html.twig', [
+                    'section' => $section,
+                    'spot' => Section::RESOUND_TYPE,
+                    'editing' => true,
+                ]));
+            }
 
-                $media = $this->mediaService->create(
-                    $form->get('media')->getData()['media'],
-                    $section,  $resound->getMedia()?:null
-                );
-                $resound->setMedia($media);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $upload = $form->get('media')->get('media')->getData();
+                if ($upload !== null) {
+                    $media = $this->mediaService->create($upload, $section, $resound->getMedia());
+                    $resound->setMedia($media);
+                }
 
 
                 $this->em->persist($resound);

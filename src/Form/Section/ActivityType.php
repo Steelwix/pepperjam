@@ -20,6 +20,7 @@
                 ->add('media', MediaType::class, [
                     'label' => 'Media',
                     'mapped' => false,
+                    'required' => $options['image_required'],
                 ]);
         }
 
@@ -27,6 +28,8 @@
         {
             $resolver->setDefaults([
                 'data_class' => Activity::class,
+                'image_required' => true,
             ]);
+            $resolver->setAllowedTypes('image_required', 'bool');
         }
     }

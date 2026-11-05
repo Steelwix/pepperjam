@@ -96,6 +96,14 @@
     transform: translate(-50%, -50%);
 }
 
+.tech-activities-row:has(#techreel.techreel-edit-form) .tech-activities-junction {
+    display: none;
+}
+
+body:has(#techreel.techreel-edit-form) .pop-separator {
+    display: none;
+}
+
 .tech-activities-junction::before {
     position: absolute;
     top: 0;

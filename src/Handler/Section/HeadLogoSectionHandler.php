@@ -39,13 +39,35 @@ class HeadLogoSectionHandler implements SectionHandlerInterface
             $this->em->persist($section);
         }
 
+        $showreel = $this->em->getRepository(Section::class)->findOneBy([
+            'type' => Section::SHOWREEL_TYPE,
+        ]);
+        $legacySettings = $showreel?->getData() ?? [];
+        $logoSettings = $section->getData() ?? [];
+
         $form = $this->formFactory->create(HeadLogoType::class, $section, [
             'logo_required' => $section->getMedia()->isEmpty(),
         ]);
+        $form->get('logoAutoHide')->setData($logoSettings['logoAutoHide'] ?? $legacySettings['logoAutoHide'] ?? true);
+        $form->get('logoDisplayDuration')->setData($logoSettings['logoDisplayDuration'] ?? $legacySettings['logoDisplayDuration'] ?? 3);
         $form->handleRequest($request);
         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
+        if ($form->isSubmitted() && $request->request->getBoolean('_cancel')) {
+            return new Response($this->twig->render('home/section/turbo-load/showreel.html.twig'));
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $logoSettings['logoAutoHide'] = (bool) $form->get('logoAutoHide')->getData();
+            $logoSettings['logoDisplayDuration'] = (float) $form->get('logoDisplayDuration')->getData();
+            $section->setData($logoSettings);
+
+            if ($showreel && $showreel->getData() !== null) {
+                $legacySettings = $showreel->getData();
+                unset($legacySettings['logoAutoHide'], $legacySettings['logoDisplayDuration']);
+                $showreel->setData($legacySettings ?: null);
+            }
+
             $logo = $form->get('logo')->getData();
             if ($logo !== null) {
                 $this->mediaService->create(

@@ -3,11 +3,13 @@
         <section id="showreel" class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-7">
-                    <div class="card bg-dark border-secondary shadow-lg">
-                        <div class="card-body p-4 p-md-5">
-                            <p class="text-warning small fw-bold text-uppercase mb-2">// Brand asset //</p>
-                            <h2 class="text-white mb-2">Head logo</h2>
-                            <p class="text-secondary mb-4">Upload the image displayed over the showreel.</p>
+                    <div class="card section-edit-card bg-dark">
+                        <div class="card-body section-edit-card__body p-4 p-md-5">
+                            <header class="section-edit-heading mb-4">
+                                <p class="section-edit-kicker">// BRAND ASSET //</p>
+                                <h2 class="text-white mb-2">Head logo</h2>
+                                <p class="text-secondary mb-0">Upload the image displayed over the showreel.</p>
+                            </header>
 
                             {{ form_start(form, {
                                 action: path('app_edit_section', { sectionType: 'head_logo' }),
@@ -15,14 +17,20 @@
                             }) }}
                                 {{ form_row(form.logo) }}
 
+                                <div class="section-edit-subsection">
+                                    <h3 class="section-edit-subtitle">Logo appearance</h3>
+                                    {{ form_row(form.logoAutoHide) }}
+                                    {{ form_row(form.logoDisplayDuration) }}
+                                </div>
+
                                 {% if logo %}
                                     <div class="head-logo-preview mb-4">
                                         <img src="{{ asset(logo.path ~ logo.filename) }}" alt="Current head logo">
                                     </div>
                                 {% endif %}
 
-                                <div class="d-flex flex-wrap gap-2 justify-content-end">
-                                    <a href="{{ path('app_home', { editing: true }) }}#showreel" class="btn btn-outline-light">Cancel</a>
+                                <div class="section-edit-actions d-flex flex-wrap gap-2 justify-content-end">
+                                    <button type="submit" name="_cancel" value="1" class="btn btn-outline-light">Cancel</button>
                                     <button type="submit" class="btn btn-primary">Save logo</button>
                                 </div>
                             {{ form_end(form) }}
