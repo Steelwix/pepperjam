@@ -18,6 +18,7 @@
                 ->add('media', MediaType::class, [
                     'label' => 'Showreel video',
                     'required' => $options['media_required'],
+                    'mapped' => false,
                 ]);
         }
 
