@@ -46,7 +46,7 @@ function moveCarousel(button) {
         animation.currentTime = (animation.currentTime ?? 0)
             + direction * cycleDuration * (400 / cycleWidth);
         move.cancel();
-        animation.play();
+        syncCarouselPlayback(track);
     };
 }
 
@@ -70,6 +70,54 @@ function readTranslateX(element) {
     const transform = getComputedStyle(element).transform;
     return transform === 'none' ? 0 : new DOMMatrixReadOnly(transform).m41;
 }
+
+function syncCarouselPlayback(track) {
+    if (!track) {
+        return;
+    }
+
+    const animation = getTrackAnimation(track);
+    if (!animation) {
+        return;
+    }
+
+    const resoundShouldPause = track.matches('.resound-track')
+        && (track.classList.contains('video-hovered') || track.classList.contains('video-playing'));
+    const teamShouldPause = track.matches('.team-track') && track.matches(':hover');
+
+    if (resoundShouldPause || teamShouldPause) {
+        animation.pause();
+    } else {
+        animation.play();
+    }
+}
+
+window.syncResoundCarouselPlayback = syncCarouselPlayback;
+
+function syncTeamHover(event, entering) {
+    if (!(event.target instanceof Element)) {
+        return;
+    }
+
+    const track = event.target.closest('.team-track.scrolling');
+    if (!track) {
+        return;
+    }
+
+    const relatedTarget = event.relatedTarget;
+    if (relatedTarget instanceof Node && track.contains(relatedTarget)) {
+        return;
+    }
+
+    if (entering) {
+        syncCarouselPlayback(track);
+    } else {
+        requestAnimationFrame(() => syncCarouselPlayback(track));
+    }
+}
+
+document.addEventListener('pointerover', (event) => syncTeamHover(event, true));
+document.addEventListener('pointerout', (event) => syncTeamHover(event, false));
 
 document.addEventListener('pointerdown', (event) => {
     if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) {
@@ -165,7 +213,7 @@ function finishCarouselDrag(event) {
     if (state.dragging) {
         suppressCarouselClickUntil = Date.now() + 350;
         if (state.animation) {
-            state.animation.play();
+            syncCarouselPlayback(state.track);
         }
     }
 }

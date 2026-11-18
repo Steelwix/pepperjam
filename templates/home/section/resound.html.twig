@@ -213,12 +213,14 @@
 
                     videoContainer.addEventListener('pointerenter', () => {
                         track.classList.add('video-hovered');
+                        window.syncResoundCarouselPlayback?.(track);
                     });
 
                     videoContainer.addEventListener('pointerleave', () => {
                         if (!track.querySelector('.resound-video:hover')) {
                             track.classList.remove('video-hovered');
                         }
+                        window.syncResoundCarouselPlayback?.(track);
                     });
 
                     const updatePlaybackState = () => {
@@ -226,6 +228,7 @@
                             .some((item) => !item.paused && !item.ended);
 
                         track.classList.toggle('video-playing', hasPlayingVideo);
+                        window.syncResoundCarouselPlayback?.(track);
                     };
 
                     video.addEventListener('play', updatePlaybackState);
