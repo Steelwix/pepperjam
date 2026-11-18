@@ -39,7 +39,9 @@
 .software-admin-table thead th { color: var(--color-pop-yellow); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .software-admin-table__image { width: 64px; height: 48px; object-fit: contain; background: #080808; }
 .software-section__empty { color: rgba(255,255,255,.7); }
-.software-marquee { width: 100%; overflow: hidden; padding: 28px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.software-marquee { width: 100%; overflow: hidden; padding: 28px 0; cursor: grab; touch-action: pan-y; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.software-marquee.is-dragging { cursor: grabbing; user-select: none; }
+.software-marquee img { -webkit-user-drag: none; user-select: none; }
 .software-track { display: flex; width: max-content; }
 .software-track.is-scrolling { animation: software-scroll 34s linear infinite !important; }
 .software-track.is-scrolling.is-manually-accelerated { animation-play-state: running !important; }
